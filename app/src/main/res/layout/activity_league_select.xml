@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:stretchColumns="*"
+    android:background="#F3ECEC">
+<!--    <TextView-->
+<!--        android:textStyle="bold"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:text="Premier League"-->
+<!--        android:textSize="30dp"-->
+<!--        android:gravity="center"/>-->
+    <LinearLayout><ImageView
+        android:src="@drawable/logo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        /></LinearLayout>
+    <TableRow>
+        <ImageView
+
+            android:layout_marginTop="100dp"
+            android:id="@+id/imvBangXepHang"
+            android:src="@drawable/premier_league"/>
+        <ImageView
+            android:layout_marginTop="100dp"
+            android:id="@+id/imvPlayerTOP"
+            android:src="@drawable/ligue1"/>
+    </TableRow>
+    <TableRow>
+        <ImageView
+            android:layout_marginTop="100dp"
+            android:id="@+id/imvLichThiDau"
+            android:src="@drawable/laliga"/>
+        <ImageView
+            android:layout_marginTop="100dp"
+            android:id="@+id/imvSerieA"
+            android:src="@drawable/seriea"/>
+    </TableRow>
+
+</TableLayout>

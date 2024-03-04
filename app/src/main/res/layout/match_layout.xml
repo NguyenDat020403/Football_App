@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="#F3ECEC"
+    android:gravity="center"
+    >
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:weightSum="14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="2"
+                android:id="@+id/txtTime"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="03:00"
+                android:textSize="20sp" />
+        <LinearLayout
+            android:layout_weight="12"
+            android:weightSum="15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:layout_weight="6"
+                android:id="@+id/txtDoi1"
+                android:textSize="20sp"
+                android:text="Manchester City"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/imvAnhDoi1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/txtTiSo"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="3 - 1"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/imvAnhDoi2"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/txtDoi2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:gravity="left"
+                android:text="Manchester City"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
