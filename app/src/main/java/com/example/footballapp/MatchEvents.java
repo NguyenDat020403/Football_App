@@ -39,7 +39,7 @@ public class MatchEvents extends AppCompatActivity {
         setContentView(R.layout.activity_match_events);
         Anhxa();
         Log.d("Da anh xa","DA ANH XA");
-        getMatch(layNgayHienTai());
+        getMatch("2024-03-04");
         Log.d("Da anh xa","DA ANH XA" + layNgayHienTai());
     }
 
