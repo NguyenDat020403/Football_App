@@ -1,3 +1,11 @@
 <resources>
+    <string-array name="dropdown_items">
+        <item>Ngày 1</item>
+        <item>Ngày 2</item>
+        <item>Ngày 3</item>
+    </string-array>
+
+
+
     <string name="app_name">Football App</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.footballapp;
 
+import java.util.Comparator;
+
 public class Match {
     public String Time;
     public String nameHome;
@@ -47,4 +49,24 @@ public class Match {
         this.photoHome = photoHome;
         this.photoAway = photoAway;
     }
+    public static Comparator<Match> timeComparator = new Comparator<Match>() {
+        @Override
+        public int compare(Match m1, Match m2) {
+            // Sử dụng phương thức compareTo() của lớp Time để so sánh thời gian
+            int time1 = convertToMinutes(m1.getTime());
+            int time2 = convertToMinutes(m2.getTime());
+
+            // So sánh thời gian của hai đối tượng Match và trả về kết quả
+            return Integer.compare(time1, time2);
+        }
+        private int convertToMinutes(String time) {
+            // Split chuỗi thời gian thành giờ và phút
+            String[] parts = time.split(":");
+            int hours = Integer.parseInt(parts[0]);
+            int minutes = Integer.parseInt(parts[1]);
+            // Chuyển đổi thành số phút
+            return hours * 60 + minutes;
+        }
+    };
+
 }
