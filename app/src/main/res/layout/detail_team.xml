@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="#F3ECEC"
+    android:gravity="center">
+
+    <LinearLayout
+        android:padding="5dp"
+        android:weightSum="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/imvphotoPlayer"
+            android:src="@drawable/baseline_leaderboard_24"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_weight="4"
+            android:id="@+id/txtnamePlayer"
+            android:textSize="20dp"
+            android:text="Nguyen Dat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_weight="3"
+            android:id="@+id/txttypePlayer"
+            android:textSize="20dp"
+            android:text="Goalkeeper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/txtagePlayer"
+            android:textSize="20dp"
+            android:text="21"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/txtratePlayer"
+            android:textSize="20dp"
+            android:text="6.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

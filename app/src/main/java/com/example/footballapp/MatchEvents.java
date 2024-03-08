@@ -3,6 +3,7 @@ package com.example.footballapp;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,6 +56,7 @@ public class MatchEvents extends AppCompatActivity {
         adapter.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(3);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -72,11 +75,18 @@ public class MatchEvents extends AppCompatActivity {
                 // Xử lý khi không có mục nào được chọn
             }
         });
-        // Định dạng lại ngày thành chuỗi với định dạng yyyy-MM-dd
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        String ngayHienTaiStr = dateFormat.format(dates[0]);
-//        String ngayHomQuaStr = dateFormat.format(dates[1]);
-//        getMatch(ngayHomQuaStr,ngayHienTaiStr);
+//        lv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                vidMatch.setVisibility(View.VISIBLE);
+//                    vidMatch.setVideoURI(Uri.parse("https://www.g-video.tv/5201206.mp4"));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
     }
     private List<String> getDateList() {
@@ -120,7 +130,7 @@ public class MatchEvents extends AppCompatActivity {
                         txtNgay.setText(date2);
 
                         matches.clear();
-                        matches.add(new Match("-","-","-","Không có trận đấu ngày hôm nay","-","-","-"));
+                        matches.add(new Match(" ","-","-","-"," ","-","-","-"));
                         matchAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     try {
@@ -135,7 +145,7 @@ public class MatchEvents extends AppCompatActivity {
                                 Log.d("SAi i ", "SAI LOOP" +i);
 
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-
+                            String id = jsonObject.getString("match_id");
                             String time = jsonObject.getString("match_time");
                             String DATE = jsonObject.getString("match_date");
                             LocalDateTime dateTime1 = LocalDateTime.parse(DATE + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -154,7 +164,7 @@ public class MatchEvents extends AppCompatActivity {
                                     String scoreAway = jsonObject.getString("match_awayteam_score");
                                     String photoHome = jsonObject.getString("team_home_badge");
                                     String photoAway = jsonObject.getString("team_away_badge");
-                                    matches.add(new Match(convertDateTime.getConvertedTime(),nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway));
+                                    matches.add(new Match(id,convertDateTime.getConvertedTime(),nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway));
                                     Log.d("DoiBong",   " " + convertDateTime.getConvertedTime() + " " + nameHome + " " + nameAway + " " + scoreHome+ " " +scoreAway + " " +photoAway + " " +photoAway );
                                     Collections.sort(matches, Match.timeComparator);
 
@@ -167,7 +177,7 @@ public class MatchEvents extends AppCompatActivity {
                             txtNgay.setText(date2);
 
                             matches.clear();
-                            matches.add(new Match("-","-","-","Không có trận đấu ngày hôm nay","-","-","-"));
+                            matches.add(new Match(" ","-","-","-"," ","-","-","-"));
                             matchAdapter.notifyDataSetChanged();
                         }
 
@@ -178,11 +188,8 @@ public class MatchEvents extends AppCompatActivity {
                 }
             }
 
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, error -> {
 
-            }
         });
         requestQueue.add(stringRequest);
 

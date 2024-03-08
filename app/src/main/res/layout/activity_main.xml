@@ -7,15 +7,43 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="#F3ECEC">
-    <TextView
-        android:textColor="@color/black"
-        android:id="@+id/txtGiaidau"
-        android:padding="2dp"
-        android:textSize="25dp"
-        android:text="Bảng xếp hạng"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#5889FF"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/competition_1_small" />
+
+        <TextView
+            android:fontFamily="@font/promptmedium"
+            android:gravity="center"
+            android:layout_weight="9"
+            android:id="@+id/txtGiaiDau"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="PREMIER LEAGUE TABLE 2023/2024"
+            android:textColor="@color/white"
+            android:textSize="26dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spinnerBXH"
+            android:layout_width="146dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="#333333"
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,16 +53,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <TextView
+                android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:layout_weight="1"
                 android:textSize="20sp"
-                android:text="STT"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="3"
                 android:textSize="20sp"
                 android:text="Tên đội bóng"
@@ -47,40 +75,45 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:text="M"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:text="W"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:text="D"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:text="L"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:fontFamily="@font/promptlight"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="#D5E6D5"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:text="Pts"
@@ -93,33 +126,6 @@
 
         android:id="@+id/lvTeam"
         android:layout_width="match_parent"
-        android:layout_height="657dp" />
-    <LinearLayout
-        android:weightSum="4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/imvBangXepHang"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/imvPlayerTop"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onImageViewClick"/>
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:layout_height="match_parent" />
+
 </LinearLayout>

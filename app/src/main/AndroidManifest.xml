@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FootballApp"
         tools:targetApi="31">
         <activity
+            android:name=".TeamDetail"
+            android:exported="false" />
+        <activity
             android:name=".MatchEvents"
             android:exported="false" />
         <activity

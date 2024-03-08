@@ -3,6 +3,7 @@ package com.example.footballapp;
 import java.util.Comparator;
 
 public class Match {
+    public String ID;
     public String Time;
     public String nameHome;
     public String nameAway;
@@ -11,6 +12,10 @@ public class Match {
 
     public String photoHome;
     public String photoAway;
+
+    public String getID() {
+        return ID;
+    }
 
     public String getTime() {
         return Time;
@@ -40,8 +45,9 @@ public class Match {
         return photoAway;
     }
 
-    public Match(String time, String nameHome, String nameAway, String scoreHome, String scoreAway, String photoHome, String photoAway) {
-        Time = time;
+    public Match(String id,String time, String nameHome, String nameAway, String scoreHome, String scoreAway, String photoHome, String photoAway) {
+        this.ID = id;
+        this.Time = time;
         this.nameHome = nameHome;
         this.nameAway = nameAway;
         this.scoreHome = scoreHome;
@@ -49,6 +55,7 @@ public class Match {
         this.photoHome = photoHome;
         this.photoAway = photoAway;
     }
+
     public static Comparator<Match> timeComparator = new Comparator<Match>() {
         @Override
         public int compare(Match m1, Match m2) {

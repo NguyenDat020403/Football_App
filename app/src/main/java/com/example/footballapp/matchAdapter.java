@@ -50,8 +50,8 @@ public class matchAdapter extends BaseAdapter {
         ImageView imvphotoAway = view.findViewById(R.id.imvAnhDoi2);
 
         txtTime.setText(match.getTime());
-        txtnameHome.setText(match.getNameHome());;
-        txtnameAway.setText(match.getNameAway());;
+        txtnameHome.setText(match.getNameHome());
+        txtnameAway.setText(match.getNameAway());
         txtScore.setText(match.getScoreHome() + "-" +match.getScoreAway());
 
 

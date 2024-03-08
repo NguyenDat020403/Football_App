@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    Spinner spinner;
     TextView txtleagueName;
-    ImageView imvBXH,imvPlayerTop;
+    ImageView imvBXH;
     ListView lv;
     List<Doibong> teams = new ArrayList<>();
     TeamAdapter teamAdapter = new TeamAdapter(teams);
@@ -36,29 +40,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Anhxa();
+        String[] years = {"2023/2024", "2022/2023"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
         getCurrentDoiBong();
-        imvPlayerTop.setOnClickListener(new View.OnClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,PlayerTopActivity.class);
-                startActivity(intent);
-            }
-        });
-        imvBXH.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        imvBXH.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lấy đối tượng Doibong từ Adapter thay vì getItemAtPosition(position)
+                Doibong doibong = teams.get(position);
+                Intent intent = new Intent(MainActivity.this, TeamDetail.class);
+
+                // Đặt dữ liệu cần truyền qua Intent
+                intent.putExtra("team_name", doibong.getName());
+                intent.putExtra("position", doibong.getStt());
+
                 startActivity(intent);
             }
         });
     }
+
 
     private void getCurrentDoiBong() {
 
@@ -68,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Assuming successful response parsing
                 JSONArray jsonArrayList = new JSONArray(response);
-                JSONObject jsonObjectFirst = jsonArrayList.getJSONObject(0);
-                String giaiDau = jsonObjectFirst.getString("league_name");
-                txtleagueName.setText("Bảng xếp hạng " + giaiDau);
                 // Loop through each object in the array
                 for (int i = 0; i < jsonArrayList.length(); i++) {
                     JSONObject jsonObject = jsonArrayList.getJSONObject(i);
@@ -103,10 +104,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Anhxa() {
-
-        txtleagueName = (TextView) findViewById(R.id.txtGiaidau);
+        spinner = findViewById(R.id.spinnerBXH);
+        txtleagueName = (TextView) findViewById(R.id.txtGiaiDau);
         imvBXH = (ImageView) findViewById(R.id.imvBangXepHang);
-        imvPlayerTop = (ImageView) findViewById(R.id.imvPlayerTop);
         lv = (ListView) findViewById(R.id.lvTeam);
         lv.setAdapter(teamAdapter);
     }
