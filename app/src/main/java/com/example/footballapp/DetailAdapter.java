@@ -25,7 +25,7 @@ public class DetailAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return details.get(position);
+        return details.size();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DetailAdapter extends BaseAdapter {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_layout,  parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_team,  parent, false);
         }
         Detail detail = details.get(position);
         TextView txtNamePlayer = view.findViewById(R.id.txtnamePlayer);
@@ -54,9 +54,9 @@ public class DetailAdapter extends BaseAdapter {
         if (txtAgePlayer != null) {
             txtAgePlayer.setText(detail.getAgePlayer());
         }
-        TextView txtRatePlayer = view.findViewById(R.id.txtratePlayer);
-        if (txtRatePlayer != null) {
-            txtRatePlayer.setText(detail.getRatePlayer());
+        TextView txtNumberPlayer = view.findViewById(R.id.txtnumberPlayer);
+        if (txtNumberPlayer != null) {
+            txtNumberPlayer.setText(detail.getNumberPlayer());
         }
         ImageView imvPhotoPlayer = view.findViewById(R.id.imvphotoPlayer);
 

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TeamDetail.class);
 
                 // Đặt dữ liệu cần truyền qua Intent
-                intent.putExtra("team_name", doibong.getName());
-                intent.putExtra("position", doibong.getStt());
+                intent.putExtra("id", doibong.Id);
+                intent.putExtra("position", doibong.Stt);
 
                 startActivity(intent);
             }
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jsonObject = jsonArrayList.getJSONObject(i);
 
                     // Access object data using keys
+                    String id = jsonObject.getString("team_id");
                     String teamName = jsonObject.getString("team_name");
                     String position = jsonObject.getString("overall_league_position");
                     String matchP = jsonObject.getString("overall_league_payed");
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     String pointA = jsonObject.getString("overall_league_PTS");
                     String photoTeam = jsonObject.getString("team_badge");
 
-                    teams.add(new Doibong(position,teamName,matchP,winM,drawM,loseM,pointA,photoTeam));
+                    teams.add(new Doibong(id,position,teamName,matchP,winM,drawM,loseM,pointA,photoTeam));
                     // Process the data
                     Log.d("DoiBong", "Ten doi bong: " + teamName + ", Vi tri: " + position);
                 }

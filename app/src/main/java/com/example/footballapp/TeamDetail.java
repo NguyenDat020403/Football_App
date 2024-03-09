@@ -35,25 +35,29 @@ public class TeamDetail extends AppCompatActivity {
         setContentView(R.layout.activity_team_detail);
         Anhxa();
         Intent intent = getIntent();
-        String teamName = null;
-        String position;
+        String id = null;
+        String position= null;
         if (intent != null) {
             // Lấy dữ liệu từ Intent
-            teamName= intent.getStringExtra("team_name");
+            id= intent.getStringExtra("id");
 
             position = intent.getStringExtra("position");
-            if (teamName != null && position != null) {
-                Log.d("Ten", "a " + teamName);
-                getCurrentPlayer(teamName, position);
+            if (id != null && position != null) {
+                Log.d("Ten", "a " + id);
+                getCurrentPlayer(id);
+                txtXepHang.setText("#"+position);
             } else {
                 Log.e("DoiBong", "Dữ liệu truyền từ Intent không đầy đủ");
+                getCurrentPlayer(id);
+                txtXepHang.setText("#error");
+
             }
         }
-        Log.d("Ten","a " +teamName);
+        Log.d("Ten","a " +id);
     }
 
 
-    private void getCurrentPlayer(String teamName, String position ) {
+    private void getCurrentPlayer(String id) {
         RequestQueue requestQueue = Volley.newRequestQueue(TeamDetail.this);
         String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -67,11 +71,10 @@ public class TeamDetail extends AppCompatActivity {
                         JSONObject jsonObject = jsonArrayList.getJSONObject(i);
 
                         // Access object data using keys
-                        String name = jsonObject.getString("team_name");
-                        if(name.equals(teamName)){
-                            txtXepHang.setText(position);
-                            String photo = jsonObject.getString("team_badge");
+                        String idTEAM = jsonObject.getString("team_key");
+                        if(idTEAM.equals(id)){
 
+                            String photo = jsonObject.getString("team_badge");
                             Picasso.get().load(photo).into(imvAnhDaiDien);
 
 
@@ -82,19 +85,15 @@ public class TeamDetail extends AppCompatActivity {
                                 String playerName = playerObject.getString("player_name");
                                 String playerType = playerObject.getString("player_type");
                                 String playerAge = playerObject.getString("player_age");
-                                String playerRate = playerObject.getString("player_rating");
-                                details.add(new Detail(playerPhoto,playerName,playerType,playerAge,playerRate));
+                                String playerNumber= playerObject.getString("player_number");
+                                details.add(new Detail(playerPhoto,playerName,playerType,playerAge,playerNumber));
                                 Log.d("Cau thu", "TenCT: " + playerName + ", Vi tri: " + playerType);
                                 detailAdapter.notifyDataSetChanged();
                             }
                             break;
-                        }else{
-                            details.add(new Detail("https://apiv3.apifootball.com/badges/players/32198_s-carson.jpg","Dat","Dat","Dat","Dat"));
-                            detailAdapter.notifyDataSetChanged();
-                            Log.d("Cau thu", "TenCT: ");
-
                         }
                     }
+                    detailAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                 }
             }

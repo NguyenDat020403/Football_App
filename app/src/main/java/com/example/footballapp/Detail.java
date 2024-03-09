@@ -1,18 +1,18 @@
 package com.example.footballapp;
 
 public class Detail {
-    private String photoPlayer;
-    private String namePlayer;
-    private String typePlayer;
-    private String agePlayer;
-    private String ratePlayer;
+    public String photoPlayer;
+    public String namePlayer;
+    public String typePlayer;
+    public String agePlayer;
+    public String numberPlayer;
 
-    public Detail(String photoPlayer, String namePlayer, String typePlayer, String agePlayer, String ratePlayer) {
+    public Detail(String photoPlayer, String namePlayer, String typePlayer, String agePlayer, String numberPlayer) {
         this.photoPlayer = photoPlayer;
         this.namePlayer = namePlayer;
         this.typePlayer = typePlayer;
         this.agePlayer = agePlayer;
-        this.ratePlayer = ratePlayer;
+        this.numberPlayer = numberPlayer;
     }
 
     public String getPhotoPlayer() {
@@ -47,11 +47,11 @@ public class Detail {
         this.agePlayer = agePlayer;
     }
 
-    public String getRatePlayer() {
-        return ratePlayer;
+    public String getNumberPlayer() {
+        return numberPlayer;
     }
 
-    public void setRatePlayer(String ratePlayer) {
-        this.ratePlayer = ratePlayer;
+    public void setNumberPlayer(String numberPlayer) {
+        this.numberPlayer = numberPlayer;
     }
 }
