@@ -33,13 +33,14 @@
         android:gravity="center">
 
         <ImageView
+            android:background="@drawable/selector_image_background"
             android:id="@+id/imvPlayer"
             android:layout_weight="1"
             android:src="@drawable/baseline_person_24"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="30dp"/>
+            android:layout_height="50dp" />
         <ImageView
+            android:background="@drawable/selector_image_background"
             android:id="@+id/imvDetail"
             android:layout_weight="1"
             android:src="@drawable/baseline_assignment_24"
@@ -101,10 +102,73 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
     <ListView
         android:id="@+id/lvTeamDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/lilteaminfo"
+        android:layout_gravity="center"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="@font/promptmedium"
+                android:textSize="24sp"
+                android:text="Team founded: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txtNgayThanhLap"
+                android:fontFamily="@font/promptlight"
+                android:textSize="24sp"
+                android:text=" "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="@font/promptmedium"
+                android:textSize="24sp"
+                android:text="Địa điểm: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txtDiaDiem"
+                android:fontFamily="@font/promptlight"
+                android:textSize="24sp"
+                android:text=" "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="@font/promptmedium"
+                android:textSize="24sp"
+                android:text="Huấn luyện viên: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txtHuanLuyenVien"
+                android:fontFamily="@font/promptlight"
+                android:textSize="24sp"
+                android:text=" "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
+
+    </LinearLayout>
 
 </LinearLayout>

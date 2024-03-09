@@ -1,9 +1,12 @@
 package com.example.footballapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,35 +28,93 @@ import java.util.List;
 
 public class TeamDetail extends AppCompatActivity {
     ImageView imvAnhDaiDien,imvPlayer,imvDetail;
-    TextView txtXepHang;
+    LinearLayout lilteamInfo;
+
+    TextView txtXepHang,txtngayTL,txtdiadiem,txthuanluyenvien;
     ListView lv;
     List<Detail> details = new ArrayList<>();
     DetailAdapter detailAdapter = new DetailAdapter(details);
+    String id = null;
+    String position= null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_detail);
         Anhxa();
+        initInfo();
+        hienPlayer();
+        addEvents();
+
+    }
+
+    private void initInfo() {
         Intent intent = getIntent();
-        String id = null;
-        String position= null;
+        if (intent != null) {
+            // Lấy dữ liệu từ Intent
+            id= intent.getStringExtra("id");
+
+            position = intent.getStringExtra("position");
+
+        }
+    }
+
+
+    private void hienThongtindoibong() {
+        Intent intent = getIntent();
         if (intent != null) {
             // Lấy dữ liệu từ Intent
             id= intent.getStringExtra("id");
 
             position = intent.getStringExtra("position");
             if (id != null && position != null) {
-                Log.d("Ten", "a " + id);
+                getCurrentTeamInfo(id);
+                txtXepHang.setText("#"+position);
+            } else {
+                getCurrentTeamInfo(id);
+                txtXepHang.setText("#error");
+            }
+        }
+    }
+
+    private void addEvents() {
+        imvPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imvPlayer.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                imvDetail.setBackgroundColor(Color.TRANSPARENT);
+                lv.setVisibility(View.VISIBLE);
+                lilteamInfo.setVisibility(View.GONE);
+                hienPlayer();
+            }
+        });
+
+        imvDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imvDetail.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                imvPlayer.setBackgroundColor(Color.TRANSPARENT);
+                lv.setVisibility(View.GONE);
+                lilteamInfo.setVisibility(View.VISIBLE);
+                hienThongtindoibong();
+            }
+        });
+    }
+
+    private void hienPlayer() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            // Lấy dữ liệu từ Intent
+            id= intent.getStringExtra("id");
+
+            position = intent.getStringExtra("position");
+            if (id != null && position != null) {
                 getCurrentPlayer(id);
                 txtXepHang.setText("#"+position);
             } else {
-                Log.e("DoiBong", "Dữ liệu truyền từ Intent không đầy đủ");
                 getCurrentPlayer(id);
                 txtXepHang.setText("#error");
-
             }
         }
-        Log.d("Ten","a " +id);
     }
 
 
@@ -106,12 +167,62 @@ public class TeamDetail extends AppCompatActivity {
 
                 requestQueue.add(stringRequest);
     }
+    private void getCurrentTeamInfo(String id) {
+        RequestQueue requestQueue = Volley.newRequestQueue(TeamDetail.this);
+        String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    // Assuming successful response parsing
+                    JSONArray jsonArrayList = new JSONArray(response);
+                    // Loop through each object in the array
+                    for (int i = 0; i < jsonArrayList.length(); i++) {
+                        JSONObject jsonObject = jsonArrayList.getJSONObject(i);
 
+                        // Access object data using keys
+                        String idTEAM = jsonObject.getString("team_key");
+                        if(idTEAM.equals(id)){
+
+                            String photo = jsonObject.getString("team_badge");
+                            Picasso.get().load(photo).into(imvAnhDaiDien);
+                            String ngayThanhLap = jsonObject.getString("team_founded");
+                            txtngayTL.setText(ngayThanhLap);
+                            JSONObject jsonObjectDiaDiem = jsonObject.getJSONObject("venue");
+                            String diaDiem = jsonObjectDiaDiem.getString("venue_name");
+                            txtdiadiem.setText(diaDiem);
+
+                            JSONArray jsonArrayCoach = jsonObject.getJSONArray("coaches");
+                            JSONObject jsonObjectCoach = jsonArrayCoach.getJSONObject(0);
+                            String coachName= jsonObjectCoach.getString("coach_name");
+                            txthuanluyenvien.setText(coachName);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
+        requestQueue.add(stringRequest);
+    }
     private void Anhxa() {
-        imvAnhDaiDien = findViewById(R.id.imvAnhTEAM);
         imvPlayer = findViewById(R.id.imvPlayer);
+        imvPlayer.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        imvDetail = findViewById(R.id.imvDetail);
+        imvAnhDaiDien = findViewById(R.id.imvAnhTEAM);
         imvDetail= findViewById(R.id.imvDetail);
         txtXepHang = findViewById(R.id.txtXepHang);
+        txtngayTL = findViewById(R.id.txtNgayThanhLap);
+        txtdiadiem = findViewById(R.id.txtDiaDiem);
+        txthuanluyenvien = findViewById(R.id.txtHuanLuyenVien);
+        lilteamInfo = findViewById(R.id.lilteaminfo);
+
         lv = findViewById(R.id.lvTeamDetail);
         lv.setAdapter(detailAdapter);
     }
