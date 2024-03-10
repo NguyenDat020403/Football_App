@@ -15,6 +15,12 @@
         android:theme="@style/Theme.FootballApp"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".leagueSelect"
+            android:exported="false" />
+        <activity
             android:name=".TeamDetail"
             android:exported="false" />
         <activity
@@ -27,7 +33,7 @@
             android:name=".PlayerTopActivity"
             android:exported="false" />
         <activity
-            android:name=".leagueSelect"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
