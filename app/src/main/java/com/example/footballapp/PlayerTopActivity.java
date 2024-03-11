@@ -3,7 +3,6 @@ package com.example.footballapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +12,8 @@ import com.android.volley.RequestQueue;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.footballapp.adapter.PlayerTopAdapter;
+import com.example.footballapp.model.Player;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,9 +22,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import kotlin.contracts.Returns;
 
 public class PlayerTopActivity extends AppCompatActivity {
 

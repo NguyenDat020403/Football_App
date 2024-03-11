@@ -17,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.footballapp.adapter.DetailAdapter;
+import com.example.footballapp.model.Detail;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;

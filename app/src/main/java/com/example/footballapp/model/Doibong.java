@@ -1,4 +1,4 @@
-package com.example.footballapp;
+package com.example.footballapp.model;
 
 public class Doibong {
     public String Id;

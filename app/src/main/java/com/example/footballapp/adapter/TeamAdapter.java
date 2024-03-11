@@ -1,4 +1,4 @@
-package com.example.footballapp;
+package com.example.footballapp.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.footballapp.R;
+import com.example.footballapp.model.Doibong;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
