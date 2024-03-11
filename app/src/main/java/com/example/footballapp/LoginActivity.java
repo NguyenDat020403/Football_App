@@ -77,52 +77,26 @@ public class LoginActivity extends AppCompatActivity {
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
         btnregister = (Button) findViewById(R.id.btnSignup);
-        btnLoginGoogle = (Button) findViewById(R.id.btnSignInGoogle);
-        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(def)
-                .requestEmail()
-                .build();
+//        btnLoginGoogle = (Button) findViewById(R.id.btnSignInGoogle);
+//        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(def)
+//                .requestEmail()
+//                .build();
+//
+//
+//        client = GoogleSignIn.getClient(this,options);
 
-
-        client = GoogleSignIn.getClient(this,options);
-
-        btnLoginGoogle.setOnClickListener(v -> {
-            Intent i = client.getSignInIntent();
-            mActivityResultLauncher.launch(i);
-
-        });
+//        btnLoginGoogle.setOnClickListener(v -> {
+//            Intent i = client.getSignInIntent();
+//            mActivityResultLauncher.launch(i);
+//
+//        });
 
         btnlogin.setOnClickListener(v -> login());
         btnregister.setOnClickListener(v -> register());
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode == 1){
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            try {
-//                GoogleSignInAccount account = task.getResult(ApiException.class);
-//                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
-//                FirebaseAuth.getInstance().signInWithCredential(credential)
-//                        .addOnCompleteListener(task1 -> {
-//                            if(task1.isSuccessful()){
-//                                Intent intent = new Intent(getApplicationContext(), leagueSelect.class);
-//                                startActivity(intent);
-//                            }else{
-//                                Toast.makeText(LoginActivity.this, task1.getException().getMessage(),Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//
-//
-//            } catch (ApiException e) {
-//                e.printStackTrace();
-//            }
-//        }else {
-//            Toast.makeText(LoginActivity.this, "Đăng nhập Google không thành công", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
+
 
     @Override
     protected void onStart() {
@@ -137,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         FirebaseAuth.getInstance().signOut();
-        client.signOut();
+//        client.signOut();
     }
     private void login() {
         String email,pass;
