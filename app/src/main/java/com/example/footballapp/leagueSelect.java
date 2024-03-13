@@ -10,41 +10,31 @@ import android.widget.ImageView;
 
 
 public class leagueSelect extends AppCompatActivity {
-    ImageView imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvSerieA;
+    ImageView imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvNews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_league_select);
         Anhxa();
-        imvBangXepHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(leagueSelect.this,MainActivity.class);
-                startActivity(intent);
-            }
+        imvBangXepHang.setOnClickListener(v -> {
+            Intent intent = new Intent(leagueSelect.this,MainActivity.class);
+            startActivity(intent);
         });
-        imvPlayerTOP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(leagueSelect.this,PlayerTopActivity.class);
-                startActivity(intent);
-            }
+        imvPlayerTOP.setOnClickListener(v -> {
+            Intent intent = new Intent(leagueSelect.this,PlayerTopActivity.class);
+            startActivity(intent);
         });
-        imvPlayerTOP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(leagueSelect.this,PlayerTopActivity.class);
-                startActivity(intent);
-            }
-        });
-        imvLichThiDau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(leagueSelect.this,MatchEvents.class);
+        imvLichThiDau.setOnClickListener(v -> {
+            Intent intent = new Intent(leagueSelect.this,MatchEvents.class);
 
-                startActivity(intent);
-                Log.d("Da bat lich","Da bat lich" );
-            }
+            startActivity(intent);
+            Log.d("Da bat lich","Da bat lich" );
+        });
+        imvNews.setOnClickListener(v -> {
+            Intent intent = new Intent(leagueSelect.this,NewsActivity.class);
+
+            startActivity(intent);
+            Log.d("Da bat NEws","Da bat NEws" );
         });
     }
 
@@ -52,7 +42,7 @@ public class leagueSelect extends AppCompatActivity {
         imvBangXepHang = (ImageView) findViewById(R.id.imvBangXepHang);
         imvPlayerTOP = (ImageView) findViewById(R.id.imvPlayerTOP );
         imvLichThiDau = (ImageView) findViewById(R.id.imvLichThiDau);
-        imvSerieA = (ImageView) findViewById(R.id.imvSerieA);
+        imvNews = (ImageView) findViewById(R.id.imvNews);
     }
 
 }

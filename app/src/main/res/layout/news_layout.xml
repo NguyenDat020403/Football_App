@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#D30E0202">
+    <LinearLayout
+        android:background="#560B0101"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtTitle"
+            android:textColor="@color/white"
+            android:fontFamily="@font/promptmedium"
+            android:textSize="16dp"
+            android:text="Why Arsenal winning in Champions League is good news for Tottenham Hotspur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+       <LinearLayout
+           android:weightSum="2"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <ImageView
+               android:layout_gravity="center"
+               android:id="@+id/imvNewsPhoto"
+               android:layout_weight="1"
+               android:src="@drawable/premier_league"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+           <TextView
+               android:id="@+id/txtShortDesc"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:text="Arsenal and Tottenham Hotspur are usually the best of enemies, but the latter should be secretly happy about their rivals' progression in the Champions League"
+               android:textColor="#60FFFEF9"
+               android:textSize="13dp" />
+       </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
