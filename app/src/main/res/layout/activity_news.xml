@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:background="#CD130101"
+        android:background="#6E1A1A"
         android:weightSum="10">
         <ImageView
             android:layout_marginLeft="10dp"
@@ -30,6 +30,7 @@
             android:textSize="26dp"/>
     </LinearLayout>
     <ListView
+        android:background="#6E1A1A"
         android:id="@+id/lvNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

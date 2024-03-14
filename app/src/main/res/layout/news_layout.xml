@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="#D30E0202">
+    android:background="#6E1A1A">
     <LinearLayout
-        android:background="#560B0101"
+        android:elevation="36dp"
+        android:background="@drawable/news_card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:layout_margin="13dp"
             android:id="@+id/txtTitle"
             android:textColor="@color/white"
             android:fontFamily="@font/promptmedium"
@@ -22,14 +24,18 @@
            android:weightSum="2"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content">
+
            <ImageView
-               android:layout_gravity="center"
+               android:padding="10dp"
                android:id="@+id/imvNewsPhoto"
-               android:layout_weight="1"
-               android:src="@drawable/premier_league"
                android:layout_width="0dp"
-               android:layout_height="match_parent"/>
+               android:layout_height="100dp"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:src="@drawable/premier_league" />
+
            <TextView
+               android:padding="10dp"
                android:id="@+id/txtShortDesc"
                android:layout_width="0dp"
                android:layout_height="match_parent"

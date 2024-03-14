@@ -68,7 +68,6 @@ public class NewsActivity extends AppCompatActivity {
         }, volleyError -> Log.e(TAG, "Error: " + volleyError.toString())){
             @Override
             public Map<String, String> getHeaders() {
-                // Thêm các header cần thiết ở đây
                 Map<String, String> headers = new HashMap<String, String>();
                 headers.put("X-RapidAPI-Key", "5b42df3284mshd7c37721fe01078p1c981djsn033a2e836eaa");
                 headers.put("X-RapidAPI-Host", "football-news-aggregator-live.p.rapidapi.com");
