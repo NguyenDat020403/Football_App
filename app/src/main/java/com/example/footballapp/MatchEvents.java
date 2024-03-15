@@ -3,20 +3,26 @@
     import androidx.annotation.RequiresApi;
     import androidx.appcompat.app.AppCompatActivity;
 
+    import android.net.Uri;
     import android.os.Build;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.View;
     import android.widget.AdapterView;
     import android.widget.ArrayAdapter;
+    import android.widget.Button;
     import android.widget.LinearLayout;
     import android.widget.ListView;
+    import android.widget.MediaController;
     import android.widget.Spinner;
     import android.widget.TextView;
+    import android.widget.Toast;
+    import android.widget.VideoView;
 
     import com.android.volley.Request;
     import com.android.volley.RequestQueue;
     import com.android.volley.Response;
+    import com.android.volley.VolleyError;
     import com.android.volley.toolbox.StringRequest;
     import com.android.volley.toolbox.Volley;
     import com.example.footballapp.adapter.matchAdapter;
@@ -42,6 +48,8 @@
         TextView txtWeek,txtNgay;
         LinearLayout  lnmatchDetail;
         ListView lv;
+        Button btnHighLight;
+        VideoView videoView;
         List<Match> matches = new ArrayList<>();
         List<String> dateList = getDateList();
         com.example.footballapp.adapter.matchAdapter matchAdapter = new matchAdapter(matches);
@@ -80,14 +88,23 @@
             });
 
             //////--------------------------------------------------------------////
+
             lv.setOnItemClickListener((parent, view, position, id) -> {
+                Match matchClicked = matches.get(position);
+                Log.d("IDMATCH"," "+ matchClicked.ID);
                 // Lấy ra matchID từ Match tương ứng với position
                 for (int i = 0; i < parent.getChildCount(); i++) {
                     LinearLayout layout = parent.getChildAt(i).findViewById(R.id.lnMatchDetail);
                     if (layout != null) {
-                        // Nếu là mục được chọn, hiển thị LinearLayout, ngược lại ẩn đi
                         if (i == position) {
                             layout.setVisibility(View.VISIBLE);
+                            Button btnHighlight = layout.findViewById(R.id.btnHighlight);
+                            if (btnHighlight != null) { // Kiểm tra xem btnHighlight có null hay không
+                                btnHighlight.setOnClickListener(v -> {
+                                    getvideoHighLight(matchClicked.getID());
+                                    Log.d("IDMATCH"," "+ matchClicked.getID());
+                                });
+                            }
                         } else {
                             layout.setVisibility(View.GONE);
                         }
@@ -96,6 +113,42 @@
 
             });
 
+
+        }
+        private void showVideoDialog(String videoUrl) {
+            VideoDialogFragment dialogFragment = new VideoDialogFragment(videoUrl);
+            dialogFragment.show(getSupportFragmentManager(), "VideoDialogFragment");
+        }
+
+        private void getvideoHighLight(String id) {
+            RequestQueue requestQueue = Volley.newRequestQueue(MatchEvents.this);
+            String url = "https://apiv3.apifootball.com/?action=get_videos&match_id="+id+"&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c\n";
+            Log.d("URL", " " + id);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int errorCode = jsonObject.getInt("error");
+                        if (errorCode == 404) {
+                            Toast.makeText(MatchEvents.this,"Không tồn tại Highlight của trận đấu này.",Toast.LENGTH_SHORT).show();
+                        }
+
+
+                } catch (JSONException e) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        JSONObject jsonObjectFirst = jsonArray.getJSONObject(0);
+                        String urlVideo = jsonObjectFirst.getString("video_url");
+                        Log.d("URL", "12" + urlVideo);
+                        showVideoDialog(urlVideo);
+                    } catch (JSONException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                }
+            }, volleyError -> {
+
+            });
+            requestQueue.add(stringRequest);
         }
 
 
@@ -109,6 +162,7 @@
                 dates.add(sdf.format(calendar.getTime()));
                 calendar.add(Calendar.DAY_OF_YEAR, -i);
             }
+            dates.add("2024-01-13");
             return dates;
         }
         private String getPreviousDate(String currentDate) {
@@ -304,7 +358,8 @@
             txtNgay = (TextView) findViewById(R.id.txtNgay);
             spinner = (Spinner) findViewById(R.id.spinner) ;
             lnmatchDetail = (LinearLayout) findViewById(R.id.lnMatchDetail);
-
+            btnHighLight = (Button) findViewById(R.id.btnHighlight);
+            videoView = findViewById(R.id.videoView);
             lv = (ListView) findViewById(R.id.lvMatch);
             lv.setAdapter(matchAdapter);
 

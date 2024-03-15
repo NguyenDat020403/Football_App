@@ -17,4 +17,5 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="default_web_client_id">708486072632-dmqdh6t2va2pl8btnpk26gllljq1vigp.apps.googleusercontent.com</string>
+    <string name="xem_highlight">Xem Highlight</string>
 </resources>

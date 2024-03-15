@@ -27,7 +27,7 @@
             android:name=".TeamDetail"
             android:exported="false" />
         <activity
-            android:name=".MatchEvents"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -36,7 +36,7 @@
             android:name=".PlayerTopActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MatchEvents"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
