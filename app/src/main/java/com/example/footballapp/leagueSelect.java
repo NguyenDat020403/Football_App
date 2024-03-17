@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 
 public class leagueSelect extends AppCompatActivity {
-    ImageView imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvNews;
+    LinearLayout imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvNews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +40,10 @@ public class leagueSelect extends AppCompatActivity {
     }
 
     private void Anhxa() {
-        imvBangXepHang = (ImageView) findViewById(R.id.imvBangXepHang);
-        imvPlayerTOP = (ImageView) findViewById(R.id.imvPlayerTOP );
-        imvLichThiDau = (ImageView) findViewById(R.id.imvLichThiDau);
-        imvNews = (ImageView) findViewById(R.id.imvNews);
+        imvBangXepHang = (LinearLayout) findViewById(R.id.imvBangXepHang);
+        imvPlayerTOP = (LinearLayout) findViewById(R.id.imvPlayerTOP );
+        imvLichThiDau = (LinearLayout) findViewById(R.id.imvLichThiDau);
+        imvNews = (LinearLayout) findViewById(R.id.imvNews);
     }
 
 }

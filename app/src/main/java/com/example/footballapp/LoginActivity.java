@@ -3,9 +3,9 @@ package com.example.footballapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -19,22 +19,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEdit,passwordEdit;
-    private Button btnlogin,btnregister,btnLoginGoogle,btnFacebook;
+    private Button btnlogin;
+    private TextView txtregister;
     FirebaseAuth mAuth;
 
     private GoogleSignInClient client;
@@ -76,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEdit = (EditText) findViewById(R.id.edtemail);
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
-        btnregister = (Button) findViewById(R.id.btnSignup);
+        txtregister = (TextView) findViewById(R.id.txtSignup);
 //        btnLoginGoogle = (Button) findViewById(R.id.btnSignInGoogle);
 //        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(def)
@@ -93,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 
         btnlogin.setOnClickListener(v -> login());
-        btnregister.setOnClickListener(v -> register());
+        txtregister.setOnClickListener(v -> register());
     }
 
 

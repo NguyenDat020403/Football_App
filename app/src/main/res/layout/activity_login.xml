@@ -6,54 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="4"
+    android:weightSum="10"
     android:background="@color/colorPrimary">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/back_icon"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="14dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="48dp"
-            android:layout_marginRight="48dp"
-            android:layout_centerVertical="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="36dp"
-                android:text="Welcome Back"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/segoe_ui_bold"
-                android:textColor="@color/colorTextWhite"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="We missed you! Login to get started"
-                android:fontFamily="@font/seg_ui_semibold"
-                android:textColor="@color/colorTextWhite"/>
-        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:elevation="36dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="9"
         android:background="@drawable/card_background">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextBlack"
-            android:textSize="26dp"
+            android:textSize="30dp"
             android:text="LOGIN"
             android:fontFamily="@font/seg_ui_semibold"
             android:layout_marginTop="36dp"
@@ -136,7 +107,32 @@
                     android:fontFamily="@font/seg_ui_semibold"
                     android:background="@drawable/button_background"/>
             </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:weightSum="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/common_google_signin_btn_icon_dark" />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="58dp"
+                    android:src="@drawable/iconfacebook" />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/iconssms" />
+            </LinearLayout>
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_marginBottom="26dp"
             android:layout_centerHorizontal="true"
@@ -152,13 +148,12 @@
                 android:text="Don't have an account?"
                 android:fontFamily="@font/seg_ui_semibold"
                 android:layout_marginLeft="12dp" />
-            <Button
-                android:id="@+id/btnSignup"
+            <TextView
+                android:id="@+id/txtSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorButtonText"
                 android:textSize="18dp"
-                android:text="Register instead"
+                android:text="Register now"
                 android:fontFamily="@font/segoe_ui_bold"
                 android:layout_marginLeft="12dp"/>
 

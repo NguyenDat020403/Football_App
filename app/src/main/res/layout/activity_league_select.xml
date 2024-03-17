@@ -5,44 +5,154 @@
     android:orientation="vertical"
     android:background="#F3ECEC">
 
-        <ImageView
+    <ImageView
         android:src="@drawable/logo"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        />
+        android:layout_height="200dp" />
+
     <LinearLayout
+        android:layout_marginTop="60dp"
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_weight="1"
+        <LinearLayout
             android:id="@+id/imvBangXepHang"
-            android:src="@drawable/premier_league"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <ImageView
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corners"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:text="TABLES"
+                android:textColor="@color/white"
+                android:fontFamily="@font/premierleague"
+                android:textSize="26dp" />
+            <View
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Bảng xếp hạng"
+                android:textColor="@color/white"
+                android:fontFamily="@font/promptmedium"
+                android:textSize="20dp" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/imvPlayerTOP"
-            android:src="@drawable/ligue1"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corners"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:text="Stats Centre"
+                android:textColor="@color/white"
+                android:fontFamily="@font/premierleague"
+                android:textSize="26dp" />
+            <View
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Thống kê"
+                android:textColor="@color/white"
+                android:fontFamily="@font/promptmedium"
+                android:textSize="20dp" />
+        </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:id="@+id/imvLichThiDau"
-            android:src="@drawable/laliga"/>
-        <ImageView
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corners"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:text="Fixtures"
+                android:textColor="@color/white"
+                android:fontFamily="@font/premierleague"
+                android:textSize="26dp" />
+            <View
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Lịch thi đấu"
+                android:textColor="@color/white"
+                android:fontFamily="@font/promptmedium"
+                android:textSize="20dp" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/imvNews"
-            android:src="@drawable/seriea"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corners"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:text="News"
+                android:textColor="@color/white"
+                android:fontFamily="@font/premierleague"
+                android:textSize="26dp" />
+            <View
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Tin tức"
+                android:textColor="@color/white"
+                android:fontFamily="@font/promptmedium"
+                android:textSize="20dp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
