@@ -3,6 +3,7 @@ package com.example.footballapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEdit,passwordEdit;
     private Button btnlogin;
     private TextView txtregister;
+    private TextView txtforgotPassword;
     FirebaseAuth mAuth;
 
     private GoogleSignInClient client;
@@ -75,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
         txtregister = (TextView) findViewById(R.id.txtSignup);
+        txtforgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
 //        btnLoginGoogle = (Button) findViewById(R.id.btnSignInGoogle);
 //        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(def)
@@ -89,11 +92,17 @@ public class LoginActivity extends AppCompatActivity {
 //            mActivityResultLauncher.launch(i);
 //
 //        });
-
+        txtforgotPassword.setOnClickListener(v -> {
+                resetPassword();
+        });
         btnlogin.setOnClickListener(v -> login());
         txtregister.setOnClickListener(v -> register());
     }
 
+    private void resetPassword() {
+        Intent i = new Intent(LoginActivity.this,ResetPasswordActivity.class);
+        startActivity(i);
+    }
 
 
     @Override

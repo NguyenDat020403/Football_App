@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 public class leagueSelect extends AppCompatActivity {
     LinearLayout imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvNews;
+    ImageView imvInfoUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,9 @@ public class leagueSelect extends AppCompatActivity {
             startActivity(intent);
             Log.d("Da bat NEws","Da bat NEws" );
         });
+        imvInfoUser.setOnClickListener(v -> {
+            
+        });
     }
 
     private void Anhxa() {
@@ -44,6 +48,7 @@ public class leagueSelect extends AppCompatActivity {
         imvPlayerTOP = (LinearLayout) findViewById(R.id.imvPlayerTOP );
         imvLichThiDau = (LinearLayout) findViewById(R.id.imvLichThiDau);
         imvNews = (LinearLayout) findViewById(R.id.imvNews);
+        imvInfoUser = findViewById(R.id.imvInfoUser);
     }
 
 }

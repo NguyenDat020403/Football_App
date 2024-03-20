@@ -87,13 +87,14 @@
                 android:layout_marginLeft="48dp"
                 android:layout_marginRight="48dp">
                 <TextView
+                    android:id="@+id/txtForgotPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="18dp"
-                    android:text="Need Help?"
+                    android:text="Forgot Password?"
                     android:fontFamily="@font/seg_ui_semibold"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1" />
                 <Button
                     android:id="@+id/btnSignin"

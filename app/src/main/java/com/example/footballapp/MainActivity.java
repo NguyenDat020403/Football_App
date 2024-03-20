@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.TeamAdapter;
@@ -26,7 +24,6 @@ import com.example.footballapp.model.Doibong;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -36,7 +33,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     Spinner spinner;
     TextView txtleagueName;
-    ImageView imvBXH;
     ListView lv;
     List<Doibong> teams = new ArrayList<>();
     TeamAdapter teamAdapter = new TeamAdapter(teams);
@@ -48,19 +44,16 @@ public class MainActivity extends AppCompatActivity {
         getSpinnerYears();
         getCurrentDoiBong();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Lấy đối tượng Doibong từ Adapter thay vì getItemAtPosition(position)
-                Doibong doibong = teams.get(position);
-                Intent intent = new Intent(MainActivity.this, TeamDetail.class);
+        lv.setOnItemClickListener((parent, view, position, id) -> {
+            // Lấy đối tượng Doibong từ Adapter thay vì getItemAtPosition(position)
+            Doibong doibong = teams.get(position);
+            Intent intent = new Intent(MainActivity.this, TeamDetail.class);
 
-                // Đặt dữ liệu cần truyền qua Intent
-                intent.putExtra("id", doibong.Id);
-                intent.putExtra("position", doibong.Stt);
+            // Đặt dữ liệu cần truyền qua Intent
+            intent.putExtra("id", doibong.Id);
+            intent.putExtra("position", doibong.Stt);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void fetchData(String selectedYear) {
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
@@ -156,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getCurrentDoiBong() {
 
+        //JSON
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         String url = "https://apiv3.apifootball.com/?action=get_standings&league_id=152&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
@@ -198,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
     private void Anhxa() {
         spinner = findViewById(R.id.spinnerBXH);
         txtleagueName = (TextView) findViewById(R.id.txtGiaiDau);
-        imvBXH = (ImageView) findViewById(R.id.imvBangXepHang);
         lv = (ListView) findViewById(R.id.lvTeam);
         lv.setAdapter(teamAdapter);
     }
