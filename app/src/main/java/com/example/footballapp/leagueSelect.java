@@ -1,18 +1,28 @@
 package com.example.footballapp;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class leagueSelect extends AppCompatActivity {
     LinearLayout imvBangXepHang, imvPlayerTOP, imvLichThiDau, imvNews;
     ImageView imvInfoUser;
+    private boolean doubleBackToExitPressedOnce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +49,28 @@ public class leagueSelect extends AppCompatActivity {
             Log.d("Da bat NEws","Da bat NEws" );
         });
         imvInfoUser.setOnClickListener(v -> {
-            
+            Intent intent = new Intent(leagueSelect.this,InfoUserActivity.class);
+            startActivity(intent);
+        });
+
+        OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
+        onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity();
+                    return;
+                }
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(leagueSelect.this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+            }
         });
     }
 

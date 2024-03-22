@@ -3,6 +3,7 @@ package com.example.footballapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +28,19 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView txtLogin;
     private ImageView imvBackLogin;
     private FirebaseAuth mAuth;
+    ActionCodeSettings actionCodeSettings =
+            ActionCodeSettings.newBuilder()
+                    // URL you want to redirect back to. The domain (www.example.com) for this
+                    // URL must be whitelisted in the Firebase Console.
+                    .setUrl("https://footballappbase.firebaseapp.com/__/auth/action?mode=action&oobCode=code")
+                    // This must be true
+                    .setHandleCodeInApp(true)
+                    .setIOSBundleId("com.example.ios")
+                    .setAndroidPackageName(
+                            "com.example.android",
+                            true, /* installIfNotAvailable */
+                            "12"    /* minimumVersion */)
+                    .build();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +86,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(),"Tạo tài khoản thành công",Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user != null) {
-                        Intent intent = new Intent(RegisterActivity.this, leagueSelect.class);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
                 }else{
                     Toast.makeText(getApplicationContext(),"Tạo tài khoản không thành công",Toast.LENGTH_SHORT).show();
                 }
