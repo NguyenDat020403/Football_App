@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,7 +21,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -28,13 +28,14 @@ import com.squareup.picasso.Picasso;
 
 public class InfoUserActivity extends AppCompatActivity {
 
-    FirebaseAuth mAuth;
-    private ImageView imvPhotoUser;
-    private EditText edtNameUser;
-    private EditText edtEmailUser;
-    TextView txtChangePhoto,txtChangeName,txtChangeEmail;
-    Button btnChangePassword,btnSave;
+    ImageView imvPhotoUser;
+    EditText edtUserName,edtUserNumber,edtUserPassword,edtUserAddress;
+    TextView txtNameChange,txtNumberChange,txtPassChange,txtAddressChange,txtUserName,txtUserEmail;
+    Button btnLogout,btnBack,btnSaveChange;
     ActivityResultLauncher<Intent> launcher;
+
+
+
     boolean captureState = true;
     boolean choseImv = false;
     Uri PhotoUri;
@@ -46,7 +47,15 @@ public class InfoUserActivity extends AppCompatActivity {
         getCurrentUserInfo();
         checkClickChange();
         photoUserChange();
+//        changePass();
     }
+
+//    private void changePass() {
+//        btnChangePassword.setOnClickListener(v ->{
+//            Intent intent = new Intent(this, ResetPasswordActivity.class);
+//            startActivity(intent);
+//        });
+//    }
 
     @Override
     public void onBackPressed() {
@@ -59,6 +68,7 @@ public class InfoUserActivity extends AppCompatActivity {
     
 
     private void photoUserChange() {
+
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result ->{
             if(result.getResultCode() == RESULT_OK && result.getData() != null){
                 if(captureState){//camera
@@ -74,19 +84,26 @@ public class InfoUserActivity extends AppCompatActivity {
 
             }
         });
-        btnSave.setOnClickListener(v -> changeUserInfo());
+        btnSaveChange.setOnClickListener(v -> changeUserInfo());
     }
 
 
     private void checkClickChange() {
 
-        txtChangeEmail.setOnClickListener(v -> {
-            edtEmailUser.setEnabled(true);
+
+        txtNameChange.setOnClickListener(v -> {
+            edtUserName.setEnabled(true);
         });
-        txtChangeName.setOnClickListener(v -> {
-            edtNameUser.setEnabled(true);
+        txtNumberChange.setOnClickListener(v -> {
+            edtUserNumber.setEnabled(true);
         });
-        txtChangePhoto.setOnClickListener(v -> {
+        txtPassChange.setOnClickListener(v -> {
+            edtUserPassword.setEnabled(true);
+        });
+        txtAddressChange.setOnClickListener(v -> {
+            edtUserAddress.setEnabled(true);
+        });
+        imvPhotoUser.setOnClickListener(v -> {
             choseImv = true;
 
             Dialog dialog = new Dialog(InfoUserActivity.this);
@@ -111,27 +128,48 @@ public class InfoUserActivity extends AppCompatActivity {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.show();
-
         });
 
     }
 
     private void changeUserInfo() {
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(!choseImv){
-            PhotoUri = Uri.parse(user.getPhotoUrl().toString());
+            PhotoUri = user.getPhotoUrl();
         }else{
         }
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(edtNameUser.getText().toString())
+                .setDisplayName(edtUserName.getText().toString())
                 .setPhotoUri(PhotoUri)
                 .build();
-        user.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(InfoUserActivity.this, "Đã cập nhật.", Toast.LENGTH_SHORT).show();
-                getCurrentUserInfo();
-            }
+
+//        StorageReference storageRef = rootRef.getReferenceFromUrl("gs://footballappbase.appspot.com");
+//
+//
+//        StorageReference riversRef = storageRef.child("users/"+PhotoUri.getLastPathSegment());
+//        UploadTask uploadTask = riversRef.putFile(PhotoUri);
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(InfoUserActivity.this, "Thất bại~", Toast.LENGTH_SHORT).show();
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Toast.makeText(InfoUserActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+        edtUserName.setEnabled(Boolean.parseBoolean("false"));
+        edtUserNumber.setEnabled(Boolean.parseBoolean("false"));
+        edtUserPassword.setEnabled(Boolean.parseBoolean("false"));
+        edtUserAddress.setEnabled(Boolean.parseBoolean("false"));
+
+
+        user.updateProfile(profileUpdates).addOnSuccessListener(unused -> {
+            Toast.makeText(InfoUserActivity.this, "Đã cập nhật.", Toast.LENGTH_SHORT).show();
+            getCurrentUserInfo();
         });
 
     }
@@ -142,24 +180,24 @@ public class InfoUserActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String name = user.getDisplayName();
-
+            
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
-                if(photoUrl == null){
+            assert photoUrl != null;
+            Log.d("ANh", photoUrl.toString());
+            Picasso.get().load(photoUrl.toString()).into(imvPhotoUser);
 
-                }else{
-//                    imvPhotoUser.setImageURI(photoUrl);
-                    Picasso.get().load(photoUrl.toString()).into(imvPhotoUser);
-                }
                 if (name == null){
-                    edtNameUser.setText("User");
+                    edtUserName.setText("User");
+                    txtUserName.setText("User");
                 }else{
-                    edtNameUser.setText(name);
+                    edtUserName.setText(name);
+                    txtUserName.setText(name);
                 }
                 if(email == null){
-                    edtEmailUser.setText("abc@gmail.com");
+                    txtUserEmail.setText("abc@gmail.com");
                 }else{
-                    edtEmailUser.setText(email);
+                    txtUserEmail.setText(email);
                 }
 
         }
@@ -170,12 +208,22 @@ public class InfoUserActivity extends AppCompatActivity {
 
     private void Anhxa() {
         imvPhotoUser = findViewById(R.id.imvPhotoUser);
-        edtNameUser = findViewById(R.id.edtNameUser);
-        edtEmailUser = findViewById(R.id.edtEmailUser);
-        txtChangePhoto= findViewById(R.id.txtChangePhoto);
-        txtChangeName = findViewById(R.id.txtChangeName);
-        txtChangeEmail = findViewById(R.id.txtChangeEmail);
-        btnSave = findViewById(R.id.btnSaveChange);
-        btnChangePassword = findViewById(R.id.btnChangePassword);
+        edtUserName = findViewById(R.id.edtUserName);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtUserEmail= findViewById(R.id.txtUserEmail);
+        edtUserName = findViewById(R.id.edtUserName);
+        edtUserNumber = findViewById(R.id.edtUserNumber);
+        edtUserPassword = findViewById(R.id.edtUserPassword);
+        edtUserAddress = findViewById(R.id.edtUserAddress);
+
+        txtNameChange = findViewById(R.id.txtNameChange);
+        txtNumberChange = findViewById(R.id.txtNumberChange);
+        txtPassChange = findViewById(R.id.txtPassChange);
+        txtAddressChange = findViewById(R.id.txtAddressChange);
+
+        btnSaveChange = findViewById(R.id.btnSaveChange);
+        btnLogout = findViewById(R.id.btnLogout);
+        btnBack = findViewById(R.id.btnBack);
+
     }
 }

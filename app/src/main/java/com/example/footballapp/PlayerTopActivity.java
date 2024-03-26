@@ -43,7 +43,7 @@ public class PlayerTopActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(PlayerTopActivity.this);
 
-        String url = "https://apiv3.apifootball.com/?action=get_topscorers&league_id=152&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c";
+        String url = "https://apiv3.apifootball.com/?action=get_topscorers&league_id=152&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArrayPlayerList = new JSONArray(response);
@@ -81,7 +81,7 @@ public class PlayerTopActivity extends AppCompatActivity {
         playerName = playerName.replace(" ", "%20");
         RequestQueue requestQueue = Volley.newRequestQueue(PlayerTopActivity.this);
 
-        String url = "https://apiv3.apifootball.com/?action=get_players&player_name=" + playerName + "&APIkey=3610b80f6e2a8098d44998dd4727472e20e396dacbe7a0cea1f201d13330dd3c";
+        String url = "https://apiv3.apifootball.com/?action=get_players&player_name=" + playerName + "&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArrayInfoPlayer = new JSONArray(response);
