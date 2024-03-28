@@ -54,7 +54,7 @@
         List<String> dateList = getDateList();
         com.example.footballapp.adapter.matchAdapter matchAdapter = new matchAdapter(matches);
 
-
+        int check = 0;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -88,33 +88,47 @@
             });
 
             //////--------------------------------------------------------------////
+            matchDetailChose();
+
+
+        }
+
+        private void matchDetailChose() {
 
             lv.setOnItemClickListener((parent, view, position, id) -> {
                 Match matchClicked = matches.get(position);
                 Log.d("IDMATCH"," "+ matchClicked.ID);
+
                 // Lấy ra matchID từ Match tương ứng với position
                 for (int i = 0; i < parent.getChildCount(); i++) {
                     LinearLayout layout = parent.getChildAt(i).findViewById(R.id.lnMatchDetail);
                     if (layout != null) {
                         if (i == position) {
-                            layout.setVisibility(View.VISIBLE);
-                            Button btnHighlight = layout.findViewById(R.id.btnHighlight);
-                            if (btnHighlight != null) { // Kiểm tra xem btnHighlight có null hay không
-                                btnHighlight.setOnClickListener(v -> {
-                                    getvideoHighLight(matchClicked.getID());
-                                    Log.d("IDMATCH"," "+ matchClicked.getID());
-                                });
+
+                            if (layout.getVisibility() == View.VISIBLE) { // Nếu đang hiển thị, ẩn đi
+                                layout.setVisibility(View.GONE);
+
+                            } else { // Nếu đang ẩn, hiển thị và thực hiện các hành động khác cần thiết
+                                layout.setVisibility(View.VISIBLE);
+                                Button btnHighlight = layout.findViewById(R.id.btnHighlight);
+
+                                if (btnHighlight != null) { // Kiểm tra xem btnHighlight có null hay không
+                                    btnHighlight.setOnClickListener(v -> {
+                                        getvideoHighLight(matchClicked.getID());
+                                        Log.d("IDMATCH", " " + matchClicked.getID());
+                                    });
+                                }
                             }
+
                         } else {
                             layout.setVisibility(View.GONE);
                         }
                     }
                 }
-
             });
 
-
         }
+
         private void showVideoDialog(String videoUrl) {
             VideoDialogFragment dialogFragment = new VideoDialogFragment(videoUrl);
             dialogFragment.show(getSupportFragmentManager(), "VideoDialogFragment");

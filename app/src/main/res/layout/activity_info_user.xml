@@ -29,13 +29,17 @@
 
         <TextView
             android:id="@+id/txtUserName"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imvPhotoUser"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="@font/promptmedium"
+            android:gravity="center"
             android:text="Nguyễn Đạt"
             android:textColor="@color/white"
             android:textSize="20dp" />
@@ -63,88 +67,94 @@
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="370dp"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:layout_below="@+id/relativeLayout"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="-56dp"
+        android:layout_marginTop="-42dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/bg_profile"
         android:elevation="30dp">
 
         <LinearLayout
-            android:gravity="center"
-            android:layout_margin="15dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <LinearLayout
-                android:layout_margin="15dp"
-                android:id="@+id/linearLayout"
+                android:id="@+id/layoutNotificationS"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/bg_item_profile"
                 android:orientation="vertical"
                 android:padding="10dp">
+
                 <ImageView
-                    android:id="@+id/imageView810"
+                    android:id="@+id/imvNotification"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/notification" />
+
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Thông báo"
                     android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_margin="15dp"
+                android:id="@+id/layoutWalletS"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/bg_item_profile"
                 android:orientation="vertical"
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageView81"
+                    android:id="@+id/imvWallet"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/wallet" />
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Ví"
                     android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_margin="15dp"
+                android:id="@+id/layoutSettingS"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/bg_item_profile"
                 android:orientation="vertical"
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/imvSettings"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/settings" />
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Cài đặt"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -154,7 +164,9 @@
             android:id="@+id/layoutSettingInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="120dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -163,27 +175,31 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="126dp"
-                    android:layout_height="35dp"
+                    android:id="@+id/textView"
+                    android:layout_width="124dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_toStartOf="@+id/edtUserName"
-                    android:text="Tên người dùng:" />
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Tên người dùng:"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/edtUserName"
                     android:layout_width="153dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="79dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="73dp"
+                    android:layout_toEndOf="@+id/textView"
                     android:enabled="false"
                     android:hint="Nguyễn Đạt"
                     android:textSize="16dp" />
 
                 <TextView
+
                     android:id="@+id/txtNameChange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -200,22 +216,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textView2"
                     android:layout_width="122dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="11dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginTop="9dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_toStartOf="@+id/edtUserNumber"
-                    android:text="Số điện thoại:" />
+                    android:text="Số điện thoại:"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/edtUserNumber"
                     android:layout_width="153dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="79dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="73dp"
+                    android:layout_toEndOf="@+id/textView2"
                     android:enabled="false"
                     android:hint="0909 999 999"
                     android:textSize="16dp" />
@@ -237,22 +255,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="239dp"
-                    android:text="Mật khẩu:" />
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="11dp"
+                    android:text="Mật khẩu:"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/edtUserPassword"
                     android:layout_width="153dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="79dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="74dp"
+                    android:layout_toEndOf="@+id/textView3"
                     android:enabled="false"
                     android:hint="******"
                     android:textSize="16dp" />
@@ -274,22 +294,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="121dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="11dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="238dp"
-                    android:text="Địa chỉ:" />
+                    android:text="Địa chỉ:"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/edtUserAddress"
                     android:layout_width="153dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="79dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="74dp"
+                    android:layout_toEndOf="@+id/textView4"
                     android:enabled="false"
                     android:hint="TPHCM, Việt Nam"
                     android:textSize="16dp" />
@@ -308,14 +330,24 @@
 
             <Button
                 android:id="@+id/btnSaveChange"
-                android:layout_width="wrap_content"
+                android:layout_width="101dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/segoe_ui_bold"
-                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="#C8D5FF"
-                android:text="Lưu" />
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="Lưu"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </RelativeLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/layoutNotification"
@@ -379,46 +411,33 @@
             </RelativeLayout>
 
         </LinearLayout>
+
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/bg_bottom_profile">
 
+    <!--    <Button-->
+<!--        android:id="@id/btnEditProfile"-->
+<!--        android:layout_width="152dp"-->
+<!--        android:layout_height="63dp"-->
+<!--        android:layout_below="@+id/relativeLayout2"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:backgroundTint="#C8D5FF"-->
+<!--        android:text="Sửa thông tin"-->
+<!--        android:textColor="@color/black" />-->
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="152dp"
-            android:layout_height="63dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="204dp"
-            android:backgroundTint="#C8D5FF"
-            android:text="Đăng xuất"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="152dp"
-            android:layout_height="63dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="#C8D5FF"
-            android:text="Trở lại"
-            android:textColor="@color/black" />
-    </RelativeLayout>
+    <!--        <Button-->
+<!--            android:id="@+id/btnBack"-->
+<!--            android:layout_width="152dp"-->
+<!--            android:layout_height="63dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="11dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:backgroundTint="#C8D5FF"-->
+<!--            android:text="Trở lại"-->
+<!--            android:textColor="@color/black" />-->
 
 
 </RelativeLayout>
