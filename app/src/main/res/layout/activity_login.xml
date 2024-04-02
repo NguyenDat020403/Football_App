@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/btnGoogle"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

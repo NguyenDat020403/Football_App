@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -36,41 +41,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEdit,passwordEdit;
     private Button btnlogin;
+    ImageView btnGoogle;
     private TextView txtregister;
     private TextView txtforgotPassword;
     FirebaseAuth mAuth;
 
     private GoogleSignInClient client;
-    private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == 1){
-                Intent i = result.getData();
-
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(i);
-                try {
-                    GoogleSignInAccount account = task.getResult(ApiException.class);
-                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
-                    FirebaseAuth.getInstance().signInWithCredential(credential)
-                            .addOnCompleteListener(task1 -> {
-                                if(task1.isSuccessful()){
-                                    Intent intent = new Intent(getApplicationContext(), leagueSelect.class);
-                                    startActivity(intent);
-                                }else{
-                                    Toast.makeText(LoginActivity.this, task1.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                Toast.makeText(LoginActivity.this, "Đăng nhập Google không thành công", Toast.LENGTH_SHORT).show();
-            }
-        }
-    });
-    private String def = "708486072632-dmqdh6t2va2pl8btnpk26gllljq1vigp.apps.googleusercontent.com";
+    String def = "708486072632-dmqdh6t2va2pl8btnpk26gllljq1vigp.apps.googleusercontent.com";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,22 +56,23 @@ public class LoginActivity extends AppCompatActivity {
         emailEdit = (EditText) findViewById(R.id.edtemail);
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
+        btnGoogle =  (ImageView) findViewById(R.id.btnGoogle);
         txtregister = (TextView) findViewById(R.id.txtSignup);
         txtforgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
-//        btnLoginGoogle = (Button) findViewById(R.id.btnSignInGoogle);
-//        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(def)
-//                .requestEmail()
-//                .build();
-//
-//
-//        client = GoogleSignIn.getClient(this,options);
 
-//        btnLoginGoogle.setOnClickListener(v -> {
-//            Intent i = client.getSignInIntent();
-//            mActivityResultLauncher.launch(i);
-//
-//        });
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(def)
+                .requestEmail()
+                .build();
+
+
+        client = GoogleSignIn.getClient(this,options);
+
+        btnGoogle.setOnClickListener(v -> {
+            Intent i = client.getSignInIntent();
+            startActivityForResult(i,1000);
+        });
+
         txtforgotPassword.setOnClickListener(v -> {
                 resetPassword();
         });
@@ -102,6 +80,64 @@ public class LoginActivity extends AppCompatActivity {
         txtregister.setOnClickListener(v -> register());
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_CANCELED){
+        if(requestCode == 1000){
+            Log.d("Tag","onActivityR google signin result");
+            Task<GoogleSignInAccount> accountTask  = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = accountTask.getResult(ApiException.class);
+                firebaseAuthGoogleAccount(account);
+
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        }
+    }
+
+    private void firebaseAuthGoogleAccount(@NonNull GoogleSignInAccount account) {
+        Log.d("tag","firebaseAuthGoogleAccount being firebase auth with google");
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
+        mAuth.signInWithCredential(credential)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Log.d("tag","onSuccess: Login");
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        //get info
+                        assert firebaseUser != null;
+                        String uid = firebaseUser.getUid();
+                        String email = firebaseUser.getEmail();
+
+                        Log.d("tag","uid: " + uid);
+                        Log.d("tag","email: " + email);
+
+                        if(authResult.getAdditionalUserInfo().isNewUser()){
+                            Log.d("tag","onSuccess: Account created ");
+
+                            Toast.makeText(LoginActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Log.d("tag","onSuccess: Existing created ");
+
+                            Toast.makeText(LoginActivity.this, "Existing created...", Toast.LENGTH_SHORT).show();
+
+                        }
+                        startActivity(new Intent(LoginActivity.this, MatchEvents.class));
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("tag","onFailure Login Failed " );
+                    }
+                });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "708486072632",
+    "firebase_url": "https://footballappbase-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "footballappbase",
     "storage_bucket": "footballappbase.appspot.com"
   },
