@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-
         client = GoogleSignIn.getClient(this,options);
 
         btnGoogle.setOnClickListener(v -> {

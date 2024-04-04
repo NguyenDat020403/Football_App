@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    >
+    android:gravity="center">
     <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/border_top"
         android:gravity="center"
         android:weightSum="2"
@@ -38,7 +39,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/baseline_question_mark_24"
                     android:layout_width="0dp"
-                    android:layout_height="20dp"/>
+                    android:layout_height="match_parent"/>
                 <TextView
                     android:fontFamily="@font/promptmedium"
                     android:textColor="@color/black"

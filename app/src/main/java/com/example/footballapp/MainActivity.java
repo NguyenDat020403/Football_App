@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Anhxa();
         getSpinnerYears();
-        getCurrentDoiBong();
 
         lv.setOnItemClickListener((parent, view, position, id) -> {
             // Lấy đối tượng Doibong từ Adapter thay vì getItemAtPosition(position)

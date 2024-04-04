@@ -2,8 +2,7 @@
 
     import androidx.annotation.RequiresApi;
     import androidx.appcompat.app.AppCompatActivity;
-
-    import android.net.Uri;
+    import android.content.Intent;
     import android.os.Build;
     import android.os.Bundle;
     import android.util.Log;
@@ -13,7 +12,6 @@
     import android.widget.Button;
     import android.widget.LinearLayout;
     import android.widget.ListView;
-    import android.widget.MediaController;
     import android.widget.Spinner;
     import android.widget.TextView;
     import android.widget.Toast;
@@ -22,7 +20,6 @@
     import com.android.volley.Request;
     import com.android.volley.RequestQueue;
     import com.android.volley.Response;
-    import com.android.volley.VolleyError;
     import com.android.volley.toolbox.StringRequest;
     import com.android.volley.toolbox.Volley;
     import com.example.footballapp.adapter.matchAdapter;
@@ -61,7 +58,6 @@
             setContentView(R.layout.activity_match_events);
             //////--------------------------------------------------------------////
             Anhxa();
-
             //////--------------------------------------------------------------////
             Date[] dates = layNgayHomNayVaHomQua();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, dateList);
@@ -92,7 +88,6 @@
 
 
         }
-
         private void matchDetailChose() {
 
             lv.setOnItemClickListener((parent, view, position, id) -> {
@@ -128,11 +123,13 @@
             });
 
         }
-
         private void showVideoDialog(String videoUrl) {
-            VideoDialogFragment dialogFragment = new VideoDialogFragment(videoUrl);
-            dialogFragment.show(getSupportFragmentManager(), "VideoDialogFragment");
+            Intent intent = new Intent(MatchEvents.this, MatchVideoActivity.class);
+            intent.putExtra("urlVideo",videoUrl);
+            startActivity(intent);
         }
+
+
 
         private void getvideoHighLight(String id) {
             RequestQueue requestQueue = Volley.newRequestQueue(MatchEvents.this);
