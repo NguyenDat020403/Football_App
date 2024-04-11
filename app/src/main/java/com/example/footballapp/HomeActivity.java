@@ -3,10 +3,14 @@ package com.example.footballapp;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,8 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.NewsAdapter;
@@ -30,23 +32,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NewsActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
+
     ListView lv;
     List<News> newsList = new ArrayList<>();
 
     NewsAdapter newsAdapter = new NewsAdapter(newsList);
+    private boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_news);
+        setContentView(R.layout.activity_home);
         lv = (ListView) findViewById(R.id.lvNews);
         lv.setAdapter(newsAdapter);
         getNews();
+        OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
+        onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity();
+                    return;
+                }
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(HomeActivity.this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+            }
+        });
     }
 
     private void getNews() {
-        RequestQueue requestQueue = Volley.newRequestQueue(NewsActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
         String url = "https://football-news-aggregator-live.p.rapidapi.com/news/onefootball";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
@@ -78,5 +101,4 @@ public class NewsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
-
 }

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.FootballApp"
         tools:targetApi="31">
         <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MatchVideoActivity"
             android:exported="false" />
         <activity

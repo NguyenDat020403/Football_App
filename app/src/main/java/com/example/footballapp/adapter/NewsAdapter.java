@@ -48,10 +48,10 @@ public class NewsAdapter extends BaseAdapter {
         if (txtTitle != null) {
             txtTitle.setText(news.getTitle());
         }
-        TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
-        if (txtShortDesc != null) {
-            txtShortDesc.setText(news.getShort_desc());
-        }
+//        TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
+//        if (txtShortDesc != null) {
+//            txtShortDesc.setText(news.getShort_desc());
+//        }
 
         ImageView imvPhotoNews = view.findViewById(R.id.imvNewsPhoto);
         if (news.getImage() != null && !news.getImage().isEmpty()) {

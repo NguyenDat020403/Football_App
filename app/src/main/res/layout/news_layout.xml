@@ -4,46 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="#6E1A1A">
-    <LinearLayout
-        android:elevation="36dp"
-        android:background="@drawable/news_card_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_margin="13dp"
-            android:id="@+id/txtTitle"
-            android:textColor="@color/white"
-            android:fontFamily="@font/promptmedium"
-            android:textSize="16dp"
-            android:text="Why Arsenal winning in Champions League is good news for Tottenham Hotspur"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    android:background="#141927">
+
        <LinearLayout
-           android:weightSum="2"
-           android:layout_width="wrap_content"
+           android:gravity="center"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content">
 
            <ImageView
                android:padding="10dp"
                android:id="@+id/imvNewsPhoto"
-               android:layout_width="0dp"
+               android:layout_width="100dp"
                android:layout_height="100dp"
                android:layout_gravity="center"
-               android:layout_weight="1"
                android:src="@drawable/premier_league" />
-
            <TextView
-               android:padding="10dp"
-               android:id="@+id/txtShortDesc"
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:text="Arsenal and Tottenham Hotspur are usually the best of enemies, but the latter should be secretly happy about their rivals' progression in the Champions League"
-               android:textColor="#60FFFEF9"
-               android:textSize="13dp" />
+               android:layout_margin="13dp"
+               android:id="@+id/txtTitle"
+               android:textColor="@color/white"
+               android:fontFamily="@font/promptmedium"
+               android:textSize="16dp"
+               android:text="Why Arsenal winning in Champions League is good news for Tottenham Hotspur"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"/>
        </LinearLayout>
-    </LinearLayout>
 
 </LinearLayout>
