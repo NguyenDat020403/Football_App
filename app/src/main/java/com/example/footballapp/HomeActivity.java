@@ -2,9 +2,13 @@ package com.example.footballapp;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.footballapp.R.color.colorButton;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -66,6 +71,33 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+    public void onImageClick(View view) {
+        // Đặt trạng thái selected cho ImageView được nhấp
+        view.setSelected(true);
+
+        // Xóa trạng thái selected của tất cả các ImageView khác
+        ImageView imageView1 = findViewById(R.id.imvHome);
+        ImageView imageView2 = findViewById(R.id.imvFixtures);
+        ImageView imageView3 = findViewById(R.id.imvPlayers);
+        ImageView imageView4 = findViewById(R.id.imvTables);
+        ImageView imageView5 = findViewById(R.id.imvOption);
+
+        // Thêm các ImageView còn lại tương tự
+        int defaultColor = ContextCompat.getColor(this, R.color.white);
+        imageView1.setBackgroundColor(defaultColor);
+        imageView2.setBackgroundColor(defaultColor);
+        imageView3.setBackgroundColor(defaultColor);
+        imageView4.setBackgroundColor(defaultColor);
+        imageView5.setBackgroundColor(defaultColor);
+        int selectedColor = ContextCompat.getColor(this, R.color.colorButton); // Định nghĩa màu nền khi được chọn
+
+        view.setBackgroundColor(selectedColor);
+
     }
 
     private void getNews() {
