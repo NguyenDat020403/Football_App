@@ -18,4 +18,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="default_web_client_id">708486072632-dmqdh6t2va2pl8btnpk26gllljq1vigp.apps.googleusercontent.com</string>
     <string name="xem_highlight">Xem Highlight</string>
+    <string name="api_key">cc7e79ad647dd44e59140e8887bfe597aaa14f79d1d8c5f86657ddd8fc7e93e1</string>
+
 </resources>

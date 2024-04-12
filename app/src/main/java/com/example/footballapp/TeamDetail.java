@@ -122,7 +122,7 @@ public class TeamDetail extends AppCompatActivity {
 
     private void getCurrentPlayer(String id) {
         RequestQueue requestQueue = Volley.newRequestQueue(TeamDetail.this);
-        String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
+        String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=" + getString(R.string.api_key);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -171,7 +171,7 @@ public class TeamDetail extends AppCompatActivity {
     }
     private void getCurrentTeamInfo(String id) {
         RequestQueue requestQueue = Volley.newRequestQueue(TeamDetail.this);
-        String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
+        String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=" + getString(R.string.api_key);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

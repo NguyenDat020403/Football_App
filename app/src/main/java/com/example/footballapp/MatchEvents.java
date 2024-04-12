@@ -133,7 +133,7 @@
 
         private void getvideoHighLight(String id) {
             RequestQueue requestQueue = Volley.newRequestQueue(MatchEvents.this);
-            String url = "https://apiv3.apifootball.com/?action=get_videos&match_id="+id+"&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456\n";
+            String url = "https://apiv3.apifootball.com/?action=get_videos&match_id="+id+"&APIkey=" + getString(R.string.api_key);
             Log.d("URL", " " + id);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
@@ -193,7 +193,7 @@
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
             RequestQueue requestQueue = Volley.newRequestQueue(MatchEvents.this);
-            String url = "https://apiv3.apifootball.com/?action=get_events&from="+date1+"&to="+date2+"&league_id=152&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
+            String url = "https://apiv3.apifootball.com/?action=get_events&from="+date1+"&to="+date2+"&league_id=152&APIkey=" + getString(R.string.api_key);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override

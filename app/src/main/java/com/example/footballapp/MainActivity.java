@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
         //JSON
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        String url = "https://apiv3.apifootball.com/?action=get_standings&league_id=152&APIkey=d8041cc80be090e349c861b44fc185ddf774128288e55bf514206d1af6964456";
+        String url = "https://apiv3.apifootball.com/?action=get_standings&league_id=152&APIkey="+ getString(R.string.api_key);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
 
