@@ -51,7 +51,7 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.news_layout);
         lv = (ListView) findViewById(R.id.lvNews);
         lv.setAdapter(newsAdapter);
         Anhxa();
