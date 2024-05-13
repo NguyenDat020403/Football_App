@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.NewsAdapter;
+import com.example.footballapp.databinding.ActivityHomeBinding;
 import com.example.footballapp.model.News;
 
 import org.json.JSONArray;
@@ -39,6 +40,7 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
+    ActivityHomeBinding binding;
     ListView lv;
     List<News> newsList = new ArrayList<>();
 
@@ -47,11 +49,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         lv = (ListView) findViewById(R.id.lvNews);
         lv.setAdapter(newsAdapter);
-        getNews();
+
         OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
         onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -75,7 +77,47 @@ public class HomeActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+        addEvents();
     }
+
+    private void addEvents() {
+        binding.imvHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.lnAll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getNews("fourfourtwo/laliga","url","news_img","title");
+                        getNews("onefootball","url","img","title");
+                        getNews("goal","url","news_img","modifiedTitle3");
+                    }
+                });
+                binding.lnLaliga.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newsList.clear();
+                        getNews("fourfourtwo/laliga","url","news_img","title");
+                    }
+                });
+                binding.lnOneFootball.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newsList.clear();
+                        getNews("onefootball","url","img","title");
+                    }
+                });
+                binding.lnGoal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newsList.clear();
+                        getNews("goal","url","news_img","modifiedTitle3");
+                    }
+                });
+            }
+        });
+
+    }
+
     public void onImageClick(View view) {
         // Đặt trạng thái selected cho ImageView được nhấp
         view.setSelected(true);
@@ -100,17 +142,17 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void getNews() {
+    private void getNews(String k, String u, String im, String t) {
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-        String url = "https://football-news-aggregator-live.p.rapidapi.com/news/onefootball";
+        String url = "https://football-news-aggregator-live.p.rapidapi.com/news/" + k;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArrayList = new JSONArray(response);
                 for (int i = 0; i < jsonArrayList.length(); i++) {
                     JSONObject jsonObject = jsonArrayList.getJSONObject(i);
-                    String urlNew = jsonObject.getString("url");
-                    String title = jsonObject.getString("title");
-                    String news_img = jsonObject.getString("img");
+                    String urlNew = jsonObject.getString(u);
+                    String title = jsonObject.getString(t);
+                    String news_img = jsonObject.getString(im);
 //                    String short_desc = jsonObject.getString("short_desc");
                     newsList.add(new News(urlNew,title,news_img));
                     Log.e(TAG, " " +urlNew + title + news_img );

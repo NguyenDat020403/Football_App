@@ -19,19 +19,27 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/circles" />
 
-        <ImageView
-            android:id="@+id/imvPhotoUser"
+        <LinearLayout
+            android:id="@+id/imageLN"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/profile" />
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imvPhotoUser"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/profile" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imvPhotoUser"
+            android:layout_below="@+id/imageLN"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/promptmedium"
@@ -408,17 +416,20 @@
 <!--        android:text="Sửa thông tin"-->
 <!--        android:textColor="@color/black" />-->
 
-    <!--        <Button-->
-<!--            android:id="@+id/btnBack"-->
-<!--            android:layout_width="152dp"-->
-<!--            android:layout_height="63dp"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_marginTop="11dp"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:backgroundTint="#C8D5FF"-->
-<!--            android:text="Trở lại"-->
-<!--            android:textColor="@color/black" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="152dp"
+            android:layout_height="63dp"
+            android:backgroundTint="#C8D5FF"
+            android:text="Đăng xuất"
+            android:textColor="@color/black" />
 
+    </LinearLayout>
 
 </RelativeLayout>

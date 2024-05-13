@@ -1,5 +1,7 @@
 package com.example.footballapp;
 
+import static com.example.footballapp.LoginActivity.googleSignInClient;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,15 +31,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +65,11 @@ public class InfoUserActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher;
     Uri PhotoUri;
 
+    DatabaseReference databaseReference;
+    FirebaseAuth mAuth;
+    String myUri ="";
+    StorageTask updateTask;
+    StorageReference storageProfilePicsRef;
 
     boolean captureState = true;
     boolean choseImv = false;
@@ -64,31 +78,102 @@ public class InfoUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_user);
         Anhxa();
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+        storageProfilePicsRef = FirebaseStorage.getInstance().getReference().child("Profile Pic");
 
-
+        
         addEvents();
         getCurrentUserInfo();
         checkClickChange();
         photoUserChange();
     }
     // Lưu Uri vào SharedPreferences
-    private void savePhotoUri(Uri uri) {
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("photoUri", uri.toString());
-        editor.apply();
-    }
+    // Upload ảnh lên Firebase Storage
+//    private void uploadImageToFirebaseStorage(Uri imageUri) {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        assert user != null;
+//        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+//                .child("user_profile_images").child(user.getUid()); // userId là ID của người dùng
+//        Log.i("up1",user.getUid());
+//        Log.i("up2",storageRef.toString());
+//        storageRef.putFile(imageUri)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        // Lấy URL của ảnh đã upload
+//                        Task<Uri> downloadUrl = storageRef.getDownloadUrl();
+//                        downloadUrl.addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                String imageUrl = uri.toString();
+//                                Toast.makeText(InfoUserActivity.this, "Upload ảnh thành công!", Toast.LENGTH_SHORT).show();
+//                                saveImageUrlToUserProfile(imageUrl);
+//                            }
+//                        });
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(InfoUserActivity.this, "Upload ảnh thất bại!", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//
+//    // Lưu URL ảnh vào hồ sơ người dùng trong Firestore hoặc Realtime Database
+//    private void saveImageUrlToUserProfile(String imageUrl) {
+//        // Cập nhật hồ sơ người dùng với URL ảnh mới trong Firestore hoặc Realtime Database
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        assert user != null;
+//        DocumentReference userRef = db.collection("users").document(user.getUid()); // userId là ID của người dùng
+//        Log.i("save", userRef.toString());
+//
+//        userRef.update("profileImageUrl", imageUrl)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(InfoUserActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(InfoUserActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//
+//    // Hiển thị ảnh của người dùng khi họ đăng nhập lại
+//    private void displayUserProfileImage() {
+//        // Đọc URL ảnh từ hồ sơ người dùng trong Firestore hoặc Realtime Database
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        assert user != null;
+//        DocumentReference userRef = db.collection("users").document(user.getUid()); // userId là ID của người dùng
+//        Log.i("Hình ảnh", userRef.toString());
+//        userRef.get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        if (documentSnapshot.exists()) {
+//                            String imageUrl = documentSnapshot.getString("profileImageUrl");
+//                            Glide.with(InfoUserActivity.this).load(imageUrl).into(imvPhotoUser);
+//                            // Glide, Picasso, hoặc Universal Image Loader là những thư viện phổ biến
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(InfoUserActivity.this, "Lỗi khi tải đường dẫn ảnh", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
-    // Khôi phục Uri từ SharedPreferences
-    private Uri getPhotoUri() {
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        String uriString = preferences.getString("photoUri", null);
-        if (uriString != null) {
-            return Uri.parse(uriString);
-        } else {
-            return null;
-        }
-    }
 
 
     private void addEvents() {
@@ -108,19 +193,18 @@ public class InfoUserActivity extends AppCompatActivity {
             layoutWallet.setVisibility(View.GONE);
             layoutSettingInfo.setVisibility(View.GONE);
         });
-
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                googleSignInClient.signOut();
+                Intent intent = new Intent(InfoUserActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if(choseImv){
-            Toast.makeText(this, "Bạn chưa lưu giữ liệu!!!", Toast.LENGTH_SHORT).show();
-        }
-        
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -129,22 +213,13 @@ public class InfoUserActivity extends AppCompatActivity {
                 if (captureState) { // Camera
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                     imvPhotoUser.setImageBitmap(bitmap);
-                    savePhotoUri(Uri.parse(String.valueOf(bitmap)));
+//                    uploadImageToFirebaseStorage(Uri.parse(String.valueOf(bitmap)));
                 } else { // Bộ sưu tập
                     PhotoUri = data.getData();
                     imvPhotoUser.setImageURI(PhotoUri);
-                    savePhotoUri(PhotoUri);
+//                    uploadImageToFirebaseStorage(PhotoUri);
                 }
             }
-        }
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Khôi phục Uri của ảnh khi ứng dụng được mở lại
-        PhotoUri = getPhotoUri();
-        if (PhotoUri != null) {
-            Picasso.get().load(PhotoUri).into(imvPhotoUser);
         }
     }
 
@@ -158,12 +233,11 @@ public class InfoUserActivity extends AppCompatActivity {
                     assert bitmap != null;
                     PhotoUri = Uri.parse(String.valueOf(bitmap));
                     imvPhotoUser.setImageBitmap(bitmap);
-                    savePhotoUri(Uri.parse(bitmap.toString()));
+//                    uploadImageToFirebaseStorage(Uri.parse(bitmap.toString()));
                 }else{
                     PhotoUri = result.getData().getData();
                     imvPhotoUser.setImageURI(PhotoUri);
-                    savePhotoUri(PhotoUri);
-
+//                    uploadImageToFirebaseStorage(PhotoUri);
                 }
 
             }
@@ -257,9 +331,9 @@ public class InfoUserActivity extends AppCompatActivity {
             String email = user.getEmail();
 
             Log.d("ANh", Objects.requireNonNull(user.getPhotoUrl()).toString());
-
-            Picasso.get().load(getPhotoUri()).into(imvPhotoUser);
-
+            Glide.with(InfoUserActivity.this).load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl())).into(imvPhotoUser);
+//            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imvPhotoUser);
+//            displayUserProfileImage();
             if (name == null){
                     edtUserName.setText("User");
                     txtUserName.setText("User");
@@ -295,7 +369,7 @@ public class InfoUserActivity extends AppCompatActivity {
         txtAddressChange = findViewById(R.id.txtAddressChange);
 
         btnSaveChange = findViewById(R.id.btnSaveChange);
-//        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout = findViewById(R.id.btnLogout);
 //        btnBack = findViewById(R.id.btnBack);
         layoutSettingInfo = findViewById(R.id.layoutSettingInfo);
         layoutNotification = findViewById(R.id.layoutNotification );
