@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.facebook.android:facebook-android-sdk:latest.release")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-database")

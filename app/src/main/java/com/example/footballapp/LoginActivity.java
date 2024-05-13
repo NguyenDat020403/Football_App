@@ -1,5 +1,7 @@
 package com.example.footballapp;
 
+import static com.google.android.gms.common.util.CollectionUtils.listOf;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +21,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.SignInCredential;
@@ -42,9 +49,11 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
+    CallbackManager callbackManager = CallbackManager.Factory.create();
     private EditText emailEdit,passwordEdit;
     private Button btnlogin;
     ImageView btnGoogle;
+    ImageView btnFacebook;
     private TextView txtregister;
     private TextView txtforgotPassword;
     FirebaseAuth mAuth;
@@ -105,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
         btnGoogle =  (ImageView) findViewById(R.id.btnGoogle);
+        btnFacebook = findViewById(R.id.btnFacebook);
         txtregister = (TextView) findViewById(R.id.txtSignup);
         txtforgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
 
@@ -124,6 +134,29 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
+        btnFacebook.setOnClickListener(v ->
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, listOf("public_profile")));
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(getApplicationContext(),"Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(),"Đã thoát đăng nhập!",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getApplicationContext(),"Đăng nhập thất bại, có lỗi xảy ra!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         txtforgotPassword.setOnClickListener(v -> {
                 resetPassword();
         });
@@ -134,6 +167,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 
 //    @Override

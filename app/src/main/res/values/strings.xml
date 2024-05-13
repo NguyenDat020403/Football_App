@@ -6,6 +6,11 @@
     </string-array>
 
 
+    <string name="facebook_app_id">1128137101828607</string>
+    <string name="fb_login_protocol_scheme">fa30e76ec4987dc4e4b620e163191559</string>
+    <string name="facebook_client_token">w5G662mc4o81BUzLaFO2xjZlnHw=</string>
+
+
     <string name="app_name">Football App</string>
     <string name="title_activity_login2">LoginActivity2</string>
     <string name="prompt_email">Email</string>
