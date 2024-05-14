@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,9 +34,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -196,13 +204,28 @@ public class InfoUserActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                googleSignInClient.signOut();
-                Intent intent = new Intent(InfoUserActivity.this, LoginActivity.class);
-                startActivity(intent);
+                logout();
             }
         });
 
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        googleSignInClient.signOut();
+        LoginManager.getInstance().logOut();
+        CookieManager.getInstance().removeAllCookies(new ValueCallback<Boolean>() {
+            @Override
+            public void onReceiveValue(Boolean value) {
+                // Thông báo cho người dùng
+                Toast.makeText(InfoUserActivity.this, "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                // Chuyển về trang đăng nhập
+                Intent intent = new Intent(InfoUserActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        CookieManager.getInstance().flush();
     }
 
     @Override

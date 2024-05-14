@@ -21,9 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthException;
@@ -41,15 +44,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    CallbackManager callbackManager = CallbackManager.Factory.create();
+    CallbackManager callbackManager;
     private EditText emailEdit,passwordEdit;
     private Button btnlogin;
     ImageView btnGoogle;
@@ -133,15 +141,17 @@ public class LoginActivity extends AppCompatActivity {
            activityResultLauncher.launch(intent);
 
         });
-
+        callbackManager = CallbackManager.Factory.create();
         btnFacebook.setOnClickListener(v ->
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, listOf("public_profile")));
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email")));
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
-                startActivity(intent);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+
+//                Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
+//                startActivity(intent);
             }
 
             @Override
@@ -163,6 +173,27 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(v -> login());
         txtregister.setOnClickListener(v -> register());
 
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
+                            startActivity(intent);
+
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
     }
 
 
@@ -188,8 +219,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-//    @Override
+    //    @Override
 //    protected void onStop() {
 //        super.onStop();
 //        FirebaseAuth.getInstance().signOut();
