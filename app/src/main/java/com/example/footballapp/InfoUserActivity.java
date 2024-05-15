@@ -358,17 +358,17 @@ public class InfoUserActivity extends AppCompatActivity {
 //            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imvPhotoUser);
 //            displayUserProfileImage();
             if (name == null){
-                    edtUserName.setText("User");
-                    txtUserName.setText("User");
-                }else{
-                    edtUserName.setText(name);
-                    txtUserName.setText(name);
-                }
-                if(email == null){
-                    txtUserEmail.setText("abc@gmail.com");
-                }else{
-                    txtUserEmail.setText(email);
-                }
+                edtUserName.setText("User");
+                txtUserName.setText("User");
+            }else{
+                edtUserName.setText(name);
+                txtUserName.setText(name);
+            }
+            if(email == null){
+                txtUserEmail.setText("abc@gmail.com");
+            }else{
+                txtUserEmail.setText(email);
+            }
 
         }
         else{

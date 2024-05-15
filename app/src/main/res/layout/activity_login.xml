@@ -136,6 +136,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/facebook" />
                     <ImageView
+                        android:id="@+id/btnPhone"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.footballapp.databinding.ActivityLoginBinding;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -56,6 +57,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
+
+    ActivityLoginBinding binding;
 
     CallbackManager callbackManager;
     private EditText emailEdit,passwordEdit;
@@ -106,18 +109,41 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        initLogin();
+        addEvents();
+    }
 
-        setContentView(R.layout.activity_login);
+    private void addEvents() {
+        loginGoogle();
+        loginFacebook();
+        loginPhoneNo();
+        forgotPassword();
 
+        btnlogin.setOnClickListener(v -> login());
+        txtregister.setOnClickListener(v -> register());
+    }
 
+    private void loginPhoneNo() {
+        binding.btnPhone.setOnClickListener(v -> {
+            Intent i = new Intent(LoginActivity.this, LoginPhoneActivity.class);
+            startActivity(i);
+        });
+    }
+
+    private void forgotPassword() {
+        txtforgotPassword.setOnClickListener(v -> {
+            resetPassword();
+        });
+    }
+
+    private void initLogin() {
         mAuth = FirebaseAuth.getInstance();
-
         if(mAuth.getCurrentUser() != null){
             Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
             startActivity(intent);
         }
-
-
         emailEdit = (EditText) findViewById(R.id.edtemail);
         passwordEdit = (EditText) findViewById(R.id.edtpassword);
         btnlogin = (Button) findViewById(R.id.btnSignin);
@@ -125,22 +151,24 @@ public class LoginActivity extends AppCompatActivity {
         btnFacebook = findViewById(R.id.btnFacebook);
         txtregister = (TextView) findViewById(R.id.txtSignup);
         txtforgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
+    }
 
+    private void loginGoogle() {
         FirebaseApp.initializeApp(this);
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(default_web_client_id)
-                        .requestEmail().build();
+                .requestEmail().build();
 
         googleSignInClient = GoogleSignIn.getClient(LoginActivity.this,options);
 
         btnGoogle.setOnClickListener(v -> {
-//            FirebaseAuth.getInstance().signOut();
-//            googleSignInClient.signOut();
-           Intent intent = googleSignInClient.getSignInIntent();
-           activityResultLauncher.launch(intent);
-
+            Intent intent = googleSignInClient.getSignInIntent();
+            activityResultLauncher.launch(intent);
         });
+    }
+
+    private void loginFacebook() {
         callbackManager = CallbackManager.Factory.create();
         btnFacebook.setOnClickListener(v ->
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email")));
@@ -165,13 +193,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
-
-        txtforgotPassword.setOnClickListener(v -> {
-                resetPassword();
-        });
-        btnlogin.setOnClickListener(v -> login());
-        txtregister.setOnClickListener(v -> register());
 
     }
 
