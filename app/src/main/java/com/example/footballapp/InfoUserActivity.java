@@ -2,11 +2,10 @@ package com.example.footballapp;
 
 import static com.example.footballapp.LoginActivity.googleSignInClient;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,68 +14,47 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.view.menu.MenuView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.AccessToken;
+import com.example.footballapp.databinding.ActivityInfoUserBinding;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class InfoUserActivity extends AppCompatActivity {
 
+    ActivityInfoUserBinding binding;
+
     ImageView imvPhotoUser;
-    EditText edtUserName,edtUserNumber,edtUserPassword,edtUserAddress;
-    TextView txtNameChange,txtNumberChange,txtPassChange,txtAddressChange,txtUserName,txtUserEmail;
-    Button btnLogout,btnBack,btnSaveChange;
-    LinearLayout layoutSettingInfo,layoutNotification,layoutWallet;
-    LinearLayout layoutNotificationS, layoutWalletS,layoutSettingS;
+    Button btnLogout,btnSaveChange;
+
     ActivityResultLauncher<Intent> launcher;
     Uri PhotoUri;
 
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
-    String myUri ="";
-    StorageTask updateTask;
     StorageReference storageProfilePicsRef;
 
     boolean captureState = true;
@@ -84,7 +62,17 @@ public class InfoUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_user);
+        binding = ActivityInfoUserBinding.inflate(getLayoutInflater());
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_profile);
+
+
+
+
+
+
+
+
+        setContentView(binding.getRoot());
         Anhxa();
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
@@ -93,7 +81,6 @@ public class InfoUserActivity extends AppCompatActivity {
         
         addEvents();
         getCurrentUserInfo();
-        checkClickChange();
         photoUserChange();
     }
     // Lưu Uri vào SharedPreferences
@@ -182,109 +169,53 @@ public class InfoUserActivity extends AppCompatActivity {
 //                });
 //    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
 
     private void addEvents() {
-        layoutSettingS.setOnClickListener(v->{
-            layoutNotification.setVisibility(View.GONE);
-            layoutWallet.setVisibility(View.GONE);
-            layoutSettingInfo.setVisibility(View.VISIBLE);
-        });
-
-        layoutWalletS.setOnClickListener(v->{
-            layoutNotification.setVisibility(View.GONE);
-            layoutWallet.setVisibility(View.VISIBLE);
-            layoutSettingInfo.setVisibility(View.GONE);
-        });
-        layoutNotificationS.setOnClickListener(v->{
-            layoutNotification.setVisibility(View.VISIBLE);
-            layoutWallet.setVisibility(View.GONE);
-            layoutSettingInfo.setVisibility(View.GONE);
-        });
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        //Nav
+        //def - profile
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if(itemId == R.id.nav_tables){
+                    startActivity(new Intent(InfoUserActivity.this, MainActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_stats) {
+                    startActivity(new Intent(InfoUserActivity.this, PlayerTopActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_fixtures) {
+                    startActivity(new Intent(InfoUserActivity.this, MatchEvents.class));
+                    return true;
+                } else if (itemId == R.id.nav_news) {
+                    startActivity(new Intent(InfoUserActivity.this, NewsActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_profile) {
 
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        googleSignInClient.signOut();
-        LoginManager.getInstance().logOut();
-        CookieManager.getInstance().removeAllCookies(new ValueCallback<Boolean>() {
-            @Override
-            public void onReceiveValue(Boolean value) {
-                // Thông báo cho người dùng
-                Toast.makeText(InfoUserActivity.this, "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
-                // Chuyển về trang đăng nhập
-                Intent intent = new Intent(InfoUserActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        CookieManager.getInstance().flush();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1001) {
-                if (captureState) { // Camera
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    imvPhotoUser.setImageBitmap(bitmap);
-//                    uploadImageToFirebaseStorage(Uri.parse(String.valueOf(bitmap)));
-                } else { // Bộ sưu tập
-                    PhotoUri = data.getData();
-                    imvPhotoUser.setImageURI(PhotoUri);
-//                    uploadImageToFirebaseStorage(PhotoUri);
                 }
-            }
-        }
-    }
-
-
-    private void photoUserChange() {
-
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result ->{
-            if(result.getResultCode() == RESULT_OK && result.getData() != null){
-                if(captureState){//camera
-                    Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
-                    assert bitmap != null;
-                    PhotoUri = Uri.parse(String.valueOf(bitmap));
-                    imvPhotoUser.setImageBitmap(bitmap);
-//                    uploadImageToFirebaseStorage(Uri.parse(bitmap.toString()));
-                }else{
-                    PhotoUri = result.getData().getData();
-                    imvPhotoUser.setImageURI(PhotoUri);
-//                    uploadImageToFirebaseStorage(PhotoUri);
-                }
-
+                return  false;
             }
         });
-        Log.d("ANh photoUserChange", " "+PhotoUri);
-        btnSaveChange.setOnClickListener(v -> changeUserInfo());
-    }
 
 
-    private void checkClickChange() {
+
+        //option - others
 
 
-        txtNameChange.setOnClickListener(v -> {
-            edtUserName.setEnabled(true);
+        binding.imvEditName.setOnClickListener(v->{
+            binding.edtUserName.setEnabled(true);
+            binding.btnSaveChange.setVisibility(View.VISIBLE);
         });
-        txtNumberChange.setOnClickListener(v -> {
-            edtUserNumber.setEnabled(true);
+        binding.imvEditEmail.setOnClickListener(v->{
+            binding.edtEmailChange.setEnabled(true);
+            binding.btnSaveChange.setVisibility(View.VISIBLE);
         });
-        txtPassChange.setOnClickListener(v -> {
-            edtUserPassword.setEnabled(true);
-        });
-        txtAddressChange.setOnClickListener(v -> {
-            edtUserAddress.setEnabled(true);
-        });
+
+
         imvPhotoUser.setOnClickListener(v -> {
             choseImv = true;
 
@@ -308,13 +239,73 @@ public class InfoUserActivity extends AppCompatActivity {
                 dialog.dismiss();
 
             });
-            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            Objects.requireNonNull(dialog.getWindow()).setGravity(Gravity.BOTTOM);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.show();
         });
 
+         binding.btnLogout.setOnClickListener(v -> logout());
+
     }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        googleSignInClient.signOut();
+        LoginManager.getInstance().logOut();
+        CookieManager.getInstance().removeAllCookies(value -> {
+            // Thông báo cho người dùng
+            Toast.makeText(InfoUserActivity.this, "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
+            // Chuyển về trang đăng nhập
+            Intent intent = new Intent(InfoUserActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        CookieManager.getInstance().flush();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1001) {
+                if (captureState) { // Camera
+                    Bitmap bitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                    imvPhotoUser.setImageBitmap(bitmap);
+//                    uploadImageToFirebaseStorage(Uri.parse(String.valueOf(bitmap)));
+                } else { // Bộ sưu tập
+                    PhotoUri = data.getData();
+                    imvPhotoUser.setImageURI(PhotoUri);
+//                    uploadImageToFirebaseStorage(PhotoUri);
+                }
+            }
+        }
+    }
+
+
+    private void photoUserChange() {
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result ->{
+            if(result.getResultCode() == RESULT_OK && result.getData() != null){
+                if(captureState){//camera
+                    Bitmap bitmap = (Bitmap) Objects.requireNonNull(result.getData().getExtras()).get("data");
+                    assert bitmap != null;
+                    PhotoUri = Uri.parse(String.valueOf(bitmap));
+                    imvPhotoUser.setImageBitmap(bitmap);
+//                    uploadImageToFirebaseStorage(Uri.parse(bitmap.toString()));
+                }else{
+                    PhotoUri = result.getData().getData();
+                    imvPhotoUser.setImageURI(PhotoUri);
+//                    uploadImageToFirebaseStorage(PhotoUri);
+                }
+
+            }
+        });
+        Log.d("ANh photoUserChange", " "+PhotoUri);
+        binding.btnSaveChange.setOnClickListener(v -> changeUserInfo());
+    }
+
+
 
     private void changeUserInfo() {
 
@@ -326,21 +317,17 @@ public class InfoUserActivity extends AppCompatActivity {
         Log.d("ANh changeUserInfo", " "+PhotoUri);
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(edtUserName.getText().toString())
+                .setDisplayName(binding.edtUserName.getText().toString())
                 .setPhotoUri(PhotoUri)
                 .build();
-
-        edtUserName.setEnabled(Boolean.parseBoolean("false"));
-        edtUserNumber.setEnabled(Boolean.parseBoolean("false"));
-        edtUserPassword.setEnabled(Boolean.parseBoolean("false"));
-        edtUserAddress.setEnabled(Boolean.parseBoolean("false"));
-
         assert user != null;
         user.updateProfile(profileUpdates).addOnSuccessListener(unused -> {
             Toast.makeText(InfoUserActivity.this, "Đã cập nhật.", Toast.LENGTH_SHORT).show();
             getCurrentUserInfo();
         });
-
+            binding.btnSaveChange.setVisibility(View.GONE);
+            binding.edtUserName.setEnabled(false);
+            binding.edtEmailChange.setEnabled(false);
     }
 
 
@@ -358,16 +345,18 @@ public class InfoUserActivity extends AppCompatActivity {
 //            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imvPhotoUser);
 //            displayUserProfileImage();
             if (name == null){
-                edtUserName.setText("User");
-                txtUserName.setText("User");
+                binding.txtUserName.setText("User");
+                binding.edtUserName.setText("User");
             }else{
-                edtUserName.setText(name);
-                txtUserName.setText(name);
+                binding.txtUserName.setText(name);
+                binding.edtUserName.setText(name);
             }
             if(email == null){
-                txtUserEmail.setText("abc@gmail.com");
+                binding.txtUserEmail.setText("abc@gmail.com");
+                binding.edtEmailChange.setText("abc@gmail.com");
             }else{
-                txtUserEmail.setText(email);
+                binding.txtUserEmail.setText(email);
+                binding.edtEmailChange.setText(email);
             }
 
         }
@@ -378,28 +367,5 @@ public class InfoUserActivity extends AppCompatActivity {
 
     private void Anhxa() {
         imvPhotoUser = findViewById(R.id.imvPhotoUser);
-        edtUserName = findViewById(R.id.edtUserName);
-        txtUserName = findViewById(R.id.txtUserName);
-        txtUserEmail= findViewById(R.id.txtUserEmail);
-        edtUserName = findViewById(R.id.edtUserName);
-        edtUserNumber = findViewById(R.id.edtUserNumber);
-        edtUserPassword = findViewById(R.id.edtUserPassword);
-        edtUserAddress = findViewById(R.id.edtUserAddress);
-
-        txtNameChange = findViewById(R.id.txtNameChange);
-        txtNumberChange = findViewById(R.id.txtNumberChange);
-        txtPassChange = findViewById(R.id.txtPassChange);
-        txtAddressChange = findViewById(R.id.txtAddressChange);
-
-        btnSaveChange = findViewById(R.id.btnSaveChange);
-        btnLogout = findViewById(R.id.btnLogout);
-//        btnBack = findViewById(R.id.btnBack);
-        layoutSettingInfo = findViewById(R.id.layoutSettingInfo);
-        layoutNotification = findViewById(R.id.layoutNotification );
-        layoutWallet = findViewById(R.id.layoutWallet);
-
-        layoutNotificationS = findViewById(R.id.layoutNotificationS);
-        layoutWalletS = findViewById(R.id.layoutWalletS);
-        layoutSettingS = findViewById(R.id.layoutSettingS);
     }
 }

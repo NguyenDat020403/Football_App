@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -30,7 +32,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.NewsAdapter;
+import com.example.footballapp.databinding.ActivityNewsBinding;
 import com.example.footballapp.model.News;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,16 +52,17 @@ public class NewsActivity extends AppCompatActivity {
 
     NewsAdapter newsAdapter = new NewsAdapter(newsList);
     private boolean doubleBackToExitPressedOnce = false;
-
+    ActivityNewsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_news);
+        binding = ActivityNewsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         lv = (ListView) findViewById(R.id.lvNews);
         lv.setAdapter(newsAdapter);
         Anhxa();
+        addNavEvents();
 //        OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
 //        onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
 //            @Override
@@ -82,6 +87,36 @@ public class NewsActivity extends AppCompatActivity {
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
         addEvents();
+    }
+    private void addNavEvents() {
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_news);
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if(itemId == R.id.nav_tables){
+                    startActivity(new Intent(NewsActivity.this, MainActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_stats) {
+                    startActivity(new Intent(NewsActivity.this, PlayerTopActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_fixtures) {
+                    startActivity(new Intent(NewsActivity.this, MatchEvents.class));
+                    return true;
+                } else if (itemId == R.id.nav_news) {
+                    return true;
+                } else if (itemId == R.id.nav_profile) {
+                    startActivity(new Intent(NewsActivity.this, InfoUserActivity.class));
+                    return true;
+                }
+                return  false;
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     private void Anhxa() {

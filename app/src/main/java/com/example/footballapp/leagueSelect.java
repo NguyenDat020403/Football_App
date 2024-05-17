@@ -68,6 +68,16 @@ public class leagueSelect extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
 
     private void Anhxa() {
         imvBangXepHang = (LinearLayout) findViewById(R.id.imvBangXepHang);

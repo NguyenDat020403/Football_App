@@ -1,8 +1,11 @@
 package com.example.footballapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,7 +16,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.PlayerTopAdapter;
+import com.example.footballapp.databinding.ActivityPlayerTopBinding;
 import com.example.footballapp.model.Player;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +30,7 @@ import java.util.List;
 
 public class PlayerTopActivity extends AppCompatActivity {
 
+    ActivityPlayerTopBinding binding;
     TextView txtSTT, txtTenCauThu, txtTenCLB, txtSoBanThang;
     ImageView imvPhotoCauThu;
     ListView lv;
@@ -34,9 +40,42 @@ public class PlayerTopActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player_top);
+        binding = ActivityPlayerTopBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Anhxa();
+        addNavEvents();
         getCurrentPlayerTop();
+    }
+    private void addNavEvents() {
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_stats);
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if(itemId == R.id.nav_tables){
+                    startActivity(new Intent(PlayerTopActivity.this, MainActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_stats) {
+
+                    return true;
+                } else if (itemId == R.id.nav_fixtures) {
+                    startActivity(new Intent(PlayerTopActivity.this, MatchEvents.class));
+                    return true;
+                } else if (itemId == R.id.nav_news) {
+                    startActivity(new Intent(PlayerTopActivity.this, NewsActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_profile) {
+                    startActivity(new Intent(PlayerTopActivity.this, InfoUserActivity.class));
+                    return true;
+                }
+                return  false;
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     private void getCurrentPlayerTop() {

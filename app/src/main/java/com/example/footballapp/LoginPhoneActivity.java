@@ -133,6 +133,11 @@ public class LoginPhoneActivity extends AppCompatActivity {
                     }
                 });
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
 
     private void sendverificationcode(String numberPhone) {
         PhoneAuthOptions options =

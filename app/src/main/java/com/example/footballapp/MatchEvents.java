@@ -1,11 +1,13 @@
     package com.example.footballapp;
 
+    import androidx.annotation.NonNull;
     import androidx.annotation.RequiresApi;
     import androidx.appcompat.app.AppCompatActivity;
     import android.content.Intent;
     import android.os.Build;
     import android.os.Bundle;
     import android.util.Log;
+    import android.view.MenuItem;
     import android.view.View;
     import android.widget.AdapterView;
     import android.widget.ArrayAdapter;
@@ -23,7 +25,9 @@
     import com.android.volley.toolbox.StringRequest;
     import com.android.volley.toolbox.Volley;
     import com.example.footballapp.adapter.matchAdapter;
+    import com.example.footballapp.databinding.ActivityMatchEventsBinding;
     import com.example.footballapp.model.Match;
+    import com.google.android.material.navigation.NavigationBarView;
 
     import org.json.JSONArray;
     import org.json.JSONException;
@@ -50,14 +54,16 @@
         List<Match> matches = new ArrayList<>();
         List<String> dateList = getDateList();
         com.example.footballapp.adapter.matchAdapter matchAdapter = new matchAdapter(matches);
-
+        ActivityMatchEventsBinding binding;
         int check = 0;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_match_events);
+            binding = ActivityMatchEventsBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
             //////--------------------------------------------------------------////
             Anhxa();
+            addNavEvents();
             //////--------------------------------------------------------------////
             Date[] dates = layNgayHomNayVaHomQua();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, dateList);
@@ -88,6 +94,34 @@
 
 
         }
+        private void addNavEvents() {
+            binding.bottomNavigation.setSelectedItemId(R.id.nav_fixtures);
+            binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    int itemId = menuItem.getItemId();
+                    if(itemId == R.id.nav_tables){
+                        startActivity(new Intent(MatchEvents.this, MainActivity.class));
+                        return true;
+                    } else if (itemId == R.id.nav_stats) {
+                        startActivity(new Intent(MatchEvents.this, PlayerTopActivity.class));
+                        return true;
+                    } else if (itemId == R.id.nav_fixtures) {
+                        return true;
+                    } else if (itemId == R.id.nav_news) {
+                        startActivity(new Intent(MatchEvents.this, NewsActivity.class));
+                        return true;
+                    } else if (itemId == R.id.nav_profile) {
+                        startActivity(new Intent(MatchEvents.this, InfoUserActivity.class));
+                        return true;
+                    }
+                    return  false;
+                }
+            });
+        }
+
+
+
         private void matchDetailChose() {
 
             lv.setOnItemClickListener((parent, view, position, id) -> {

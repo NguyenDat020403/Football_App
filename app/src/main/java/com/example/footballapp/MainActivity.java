@@ -1,10 +1,12 @@
 package com.example.footballapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +21,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.TeamAdapter;
+import com.example.footballapp.databinding.ActivityMainBinding;
 import com.example.footballapp.model.Doibong;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    ActivityMainBinding binding;
     Spinner spinner;
     TextView txtleagueName;
     ListView lv;
@@ -39,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Anhxa();
+        addNavEvents();
         getSpinnerYears();
 
         lv.setOnItemClickListener((parent, view, position, id) -> {
@@ -76,6 +83,37 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void addNavEvents() {
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                MenuItem menu = binding.bottomNavigation.getMenu().findItem(itemId);
+                if(itemId == R.id.nav_tables){
+                    return true;
+                } else if (itemId == R.id.nav_stats) {
+                    startActivity(new Intent(MainActivity.this, PlayerTopActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_fixtures) {
+                    startActivity(new Intent(MainActivity.this, MatchEvents.class));
+                    return true;
+                } else if (itemId == R.id.nav_news) {
+                    startActivity(new Intent(MainActivity.this, NewsActivity.class));
+                    return true;
+                } else if (itemId == R.id.nav_profile) {
+                    startActivity(new Intent(MainActivity.this, InfoUserActivity.class));
+                    return true;
+                }
+                return  false;
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
 

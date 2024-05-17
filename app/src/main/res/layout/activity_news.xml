@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewsActivity"
-    android:orientation="vertical">
+    tools:context=".NewsActivity">
+
     <LinearLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:background="#6E1A1A"
-        android:weightSum="10">
+        android:background="#000000">
+
         <ImageView
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/competition_1_small" />
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="9"
             android:fontFamily="@font/promptmedium"
             android:gravity="center"
-            android:layout_weight="9"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="PREMIER LEAGUE NEWS 2023/2024"
-            android:textColor="@color/white"
-            android:textSize="26dp"/>
+            android:textColor="@android:color/white"
+            android:textSize="26dp" />
     </LinearLayout>
+
     <ListView
-        android:background="#6E1A1A"
+        android:layout_marginTop="10dp"
         android:id="@+id/lvNews"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/header_layout"/>
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/nav_background"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

@@ -6,426 +6,185 @@
     android:orientation="vertical"
     tools:context=".InfoUserActivity">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <LinearLayout
+        android:id="@+id/linearUserInfo"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/bor_image_user"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <LinearLayout
-            android:id="@+id/imageLN"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:layout_height="250dp"
+            android:background="@drawable/bor_image_user">
+
             <ImageView
                 android:id="@+id/imvPhotoUser"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="50dp"
                 android:scaleType="centerCrop"
-                android:layout_marginBottom="10dp"
                 android:src="@drawable/profile" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtUserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageLN"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/promptmedium"
-            android:gravity="center"
-            android:text="Nguyễn Đạt"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imvPhotoUser"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Nguyễn Đạt"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/txtUserEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtUserName"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/promptlight"
-            android:gravity="center"
-            android:text="abc@gmail.com"
-            android:textColor="@color/white"
-            android:textSize="18dp" />
+            <TextView
+                android:id="@+id/txtUserEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtUserName"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="abc@gmail.com"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="-40dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_profile"
-        android:elevation="30dp">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <LinearLayout
-                android:id="@+id/layoutNotificationS"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_item_profile"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <ImageView
-                    android:id="@+id/imvNotification"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/notification" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="Thông báo"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutWalletS"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_item_profile"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <ImageView
-                    android:id="@+id/imvWallet"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/wallet" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="Ví"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutSettingS"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_item_profile"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <ImageView
-                    android:id="@+id/imvSettings"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/settings" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="Cài đặt"
-                    android:textSize="12dp" />
-            </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/layoutSettingInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_profile">
+
+            <TextView
+                android:id="@+id/txtNameChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng:"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"/>
 
             <LinearLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical"
-                    android:text="Tên người dùng:"
-                    android:textSize="16dp" />
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_background">
 
                 <EditText
                     android:id="@+id/edtUserName"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:hint="Nguyễn Đạt"
-                    android:textSize="16dp" />
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:enabled="false"/>
 
-                <TextView
-                    android:id="@+id/txtNameChange"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Sửa"
-                    android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/imvEditName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_edit_24"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="20dp"/>
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtEmailChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"/>
 
             <LinearLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical"
-                    android:text="Số điện thoại:"
-                    android:textSize="16dp" />
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_background">
 
                 <EditText
-                    android:id="@+id/edtUserNumber"
+                    android:id="@+id/edtEmailChange"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
-                    android:hint="0909 999 999"
-                    android:textSize="16dp" />
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="abc@gmail.com"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:enabled="false"/>
 
-                <TextView
-                    android:id="@+id/txtNumberChange"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Sửa"
-                    android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/imvEditEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_edit_24"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="20dp"/>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical"
-                    android:text="Mật khẩu:"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/edtUserPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
-                    android:hint="******"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/txtPassChange"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Sửa"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical"
-                    android:text="Địa chỉ:"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/edtUserAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
-                    android:hint="TPHCM, Việt Nam"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/txtAddressChange"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Sửa"
-                    android:textSize="16dp" />
-
-
-            </LinearLayout>
-
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btnSaveChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:text="Lưu"
+                android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/button_background"
-                android:backgroundTint="#C8D5FF"
-                android:gravity="center"
-                android:text="Lưu"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:layout_gravity="center"
+                android:backgroundTint="#222222"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/layoutNotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="22:30: Trận đấu ANS vs MC" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutWallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="261dp"
-                    android:text="Số dư ví:" />
-
-                <TextView
-                    android:layout_width="172dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="79dp"
-                    android:enabled="false"
-                    android:text="200 xu"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="Nạp"
-                    android:textSize="16dp" />
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-    <!--    <Button-->
-<!--        android:id="@id/btnEditProfile"-->
-<!--        android:layout_width="152dp"-->
-<!--        android:layout_height="63dp"-->
-<!--        android:layout_below="@+id/relativeLayout2"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:backgroundTint="#C8D5FF"-->
-<!--        android:text="Sửa thông tin"-->
-<!--        android:textColor="@color/black" />-->
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearUserInfo"
+        android:layout_marginTop="35dp"
+        android:gravity="center">
+
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="152dp"
-            android:layout_height="63dp"
-            android:backgroundTint="#C8D5FF"
-            android:background="@drawable/button_background"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#222222"
             android:text="Đăng xuất"
             android:textColor="@color/white" />
 
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/nav_background"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>
