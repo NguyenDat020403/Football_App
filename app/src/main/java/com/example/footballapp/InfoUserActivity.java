@@ -12,12 +12,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -63,13 +66,9 @@ public class InfoUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityInfoUserBinding.inflate(getLayoutInflater());
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
         binding.bottomNavigation.setSelectedItemId(R.id.nav_profile);
-
-
-
-
-
-
 
 
         setContentView(binding.getRoot());
@@ -182,8 +181,14 @@ public class InfoUserActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int itemId = menuItem.getItemId();
+
+                Transition explode = new Explode();
+                explode.setDuration(0);
+                getWindow().setExitTransition(explode);
+
                 if(itemId == R.id.nav_tables){
                     startActivity(new Intent(InfoUserActivity.this, MainActivity.class));
+//                    overridePendingTransition(R.anim.enter_from_right,R.anim.exit_to_left);
                     return true;
                 } else if (itemId == R.id.nav_stats) {
                     startActivity(new Intent(InfoUserActivity.this, PlayerTopActivity.class));

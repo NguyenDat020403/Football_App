@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,6 +66,10 @@ public class LoginPhoneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginPhoneBinding.inflate(getLayoutInflater());
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = new Explode();
+        explode.setDuration(1000);
+        getWindow().setEnterTransition(explode);
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {

@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = new Explode();
+        explode.setDuration(0);
+        getWindow().setEnterTransition(explode);
         setContentView(binding.getRoot());
         Anhxa();
         addNavEvents();
@@ -61,17 +68,21 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedYear = (String) parent.getItemAtPosition(position);
                 if(!selectedYear.equals("2023")){
+                    binding.pgbTables.setVisibility(View.VISIBLE);
                     int temp = Integer.parseInt(selectedYear) +1;
                     txtleagueName.setText("PREMIER LEAGUE TABLE "+selectedYear+"/"+ String.valueOf(temp));
                     teams.clear();
                     fetchData(selectedYear);
+
                 }
                 else{
+                    binding.pgbTables.setVisibility(View.VISIBLE);
                     teams.clear();
                     getCurrentDoiBong();
                 }
@@ -83,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
 
+    }
     private void addNavEvents() {
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -118,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchData(String selectedYear) {
+        binding.pgbTables.setVisibility(View.VISIBLE);
+
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         String url = "https://api-football-beta.p.rapidapi.com/standings?season=" + selectedYear + "&league=39";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
@@ -148,15 +161,17 @@ public class MainActivity extends AppCompatActivity {
                         String photoTeam = jsonObjectTeam.getString("logo");
                         teams.add(new Doibong(id, position, teamName, matchP, winM, drawM, loseM, pointA, photoTeam));
                     }
+                    binding.pgbTables.setVisibility(View.GONE);
+
                     teamAdapter.notifyDataSetChanged();
                 } else {
-                    // Xử lý trường hợp không có phần tử trong mảng standings
                     Toast.makeText(MainActivity.this, "Không có dữ liệu standings", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }, volleyError -> {
+            binding.pgbTables.setVisibility(View.GONE);
 
         }){
             @Override
@@ -214,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                     // Process the data
                     Log.d("DoiBong", "Ten doi bong: " + teamName + ", Vi tri: " + position);
                 }
+                binding.pgbTables.setVisibility(View.GONE);
                 teamAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 Log.e("DoiBong", "Error parsing JSON: " + e.getMessage()); // Log the error
@@ -221,10 +237,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("DoiBong", "Unexpected error: " + e.getMessage()); // Log other potential errors
             }
         }, error -> {
+            binding.pgbTables.setVisibility(View.VISIBLE);
             Log.e("DoiBong", "Error fetching data: " + error.getMessage()); // Log network error
         });
         requestQueue.add(stringRequest);
-
     }
 
     private void Anhxa() {

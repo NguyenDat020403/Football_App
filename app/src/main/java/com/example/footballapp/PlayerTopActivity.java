@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +44,10 @@ public class PlayerTopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPlayerTopBinding.inflate(getLayoutInflater());
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = new Explode();
+        explode.setDuration(1000);
+        getWindow().setEnterTransition(explode);
         setContentView(binding.getRoot());
         Anhxa();
         addNavEvents();

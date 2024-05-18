@@ -187,4 +187,5 @@
         app:itemTextColor="@color/nav_item_color"
         app:menu="@menu/bottom_nav_menu" />
 
+
 </RelativeLayout>
