@@ -13,13 +13,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class matchAdapter extends BaseAdapter {
-
-
+public class matchLiveAdapter extends BaseAdapter {
     private List<Match> matches;
-    public matchAdapter(List<Match> matches) {
+
+    public matchLiveAdapter(List<Match> matches) {
         this.matches = matches;
     }
+
     @Override
     public int getCount() {
         return matches.size();
@@ -40,7 +40,7 @@ public class matchAdapter extends BaseAdapter {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_layout,  parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_livescore,  parent, false);
         }
         Match match = matches.get(position);
         TextView txtTime = view.findViewById(R.id.txtTime);
@@ -59,6 +59,9 @@ public class matchAdapter extends BaseAdapter {
         TextView txtOffsidesAway= view.findViewById(R.id.txtOffsidesAway);
         TextView txtFoulsHome= view.findViewById(R.id.txtFoulsHome);
         TextView txtFoulsAway= view.findViewById(R.id.txtFoulsAway);
+        TextView txtTimeLive = view.findViewById(R.id.txtTimeLive);
+
+        txtTimeLive.setText(match.getMatchStatus());
 
         txtBallPossesionHome.setText(match.getBallPossessionHome());
         txtBallPossesionAway.setText(match.getBallPossessionAway());

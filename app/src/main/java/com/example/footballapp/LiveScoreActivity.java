@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.footballapp.adapter.matchAdapter;
+import com.example.footballapp.adapter.matchLiveAdapter;
 import com.example.footballapp.databinding.ActivityLiveScoreBinding;
 import com.example.footballapp.model.Match;
 import com.google.type.Date;
@@ -40,7 +41,7 @@ public class LiveScoreActivity extends AppCompatActivity {
 
     List<Match> matches = new ArrayList<>();
 
-    matchAdapter liveMatchAdapter = new matchAdapter(matches);
+    matchLiveAdapter liveMatchAdapter = new matchLiveAdapter(matches);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
