@@ -247,7 +247,7 @@
                             txtNgay.setText(date2);
 
                             matches.clear();
-                            matches.add(new Match("-","-"," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
+                            matches.add(new Match("-","-",null," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                             matchAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         try {
@@ -326,7 +326,7 @@
                                                     break;
                                             }
                                         }
-                                        matches.add(new Match(id,convertDateTime.getConvertedTime(),nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway,ballPH,ballPA, ShotsTH,ShotsTA ,ShotsOGH ,ShotsOGA , FoulsH, FoulsA,CHome , CAway, OsHome,OsAway));
+                                        matches.add(new Match(id,convertDateTime.getConvertedTime(),null,nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway,ballPH,ballPA, ShotsTH,ShotsTA ,ShotsOGH ,ShotsOGA , FoulsH, FoulsA,CHome , CAway, OsHome,OsAway));
                                         Log.d("DoiBong",   " " + convertDateTime.getConvertedTime() + " " + nameHome + " " + nameAway + " " + scoreHome+ " " +scoreAway + " " +photoAway + " " +photoAway );
                                         Collections.sort(matches, Match.timeComparator);
 
@@ -339,7 +339,7 @@
                                 txtNgay.setText(date2);
 
                                 matches.clear();
-                                matches.add(new Match("-","-"," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
+                                matches.add(new Match("-",null,"-"," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                                 matchAdapter.notifyDataSetChanged();
                             }
 

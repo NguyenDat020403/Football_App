@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FootballApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginPhoneActivity"
             android:exported="false" />
@@ -65,7 +67,7 @@
             android:name=".PlayerTopActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".LiveScoreActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

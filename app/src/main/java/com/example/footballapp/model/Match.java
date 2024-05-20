@@ -5,6 +5,7 @@ import java.util.Comparator;
 public class Match {
     public String ID;
     public String Time;
+    public String matchStatus;
     public String nameHome;
     public String nameAway;
     public String scoreHome;
@@ -27,9 +28,10 @@ public class Match {
     public String OffsidesHome;
     public String OffsidesAway;
 
-    public Match(String ID, String time, String nameHome, String nameAway, String scoreHome, String scoreAway, String photoHome, String photoAway, String ballPossessionHome, String ballPossessionAway, String shotsTotalHome, String shotsTotalAway, String shotsOnGoalHome, String shotsOnGoalAway, String foulsHome, String foulsAway, String cornersHome, String cornersAway, String offsidesHome, String offsidesAway) {
+    public Match(String ID, String time, String matchStatus, String nameHome, String nameAway, String scoreHome, String scoreAway, String photoHome, String photoAway, String ballPossessionHome, String ballPossessionAway, String shotsTotalHome, String shotsTotalAway, String shotsOnGoalHome, String shotsOnGoalAway, String foulsHome, String foulsAway, String cornersHome, String cornersAway, String offsidesHome, String offsidesAway) {
         this.ID = ID;
         Time = time;
+        this.matchStatus = matchStatus;
         this.nameHome = nameHome;
         this.nameAway = nameAway;
         this.scoreHome = scoreHome;
@@ -64,6 +66,14 @@ public class Match {
 
     public void setTime(String time) {
         Time = time;
+    }
+
+    public String getMatchStatus() {
+        return matchStatus;
+    }
+
+    public void setMatchStatus(String matchStatus) {
+        this.matchStatus = matchStatus;
     }
 
     public String getNameHome() {
