@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +15,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.footballapp.adapter.matchAdapter;
 import com.example.footballapp.adapter.matchLiveAdapter;
 import com.example.footballapp.databinding.ActivityLiveScoreBinding;
 import com.example.footballapp.model.Match;
-import com.google.type.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -175,7 +172,6 @@ public class LiveScoreActivity extends AppCompatActivity {
 
                 }
             }
-
         }, error -> {
 
         });

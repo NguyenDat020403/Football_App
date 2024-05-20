@@ -74,10 +74,10 @@
 
     <ListView
         android:id="@+id/lvMatch"
+        android:layout_marginBottom="110dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/txtTitle"
-        android:padding="5dp" />
+        android:layout_below="@id/txtTitle" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

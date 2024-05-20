@@ -214,7 +214,7 @@
                 dates.add(sdf.format(calendar.getTime()));
                 calendar.add(Calendar.DAY_OF_YEAR, -i);
             }
-            dates.add("2024-01-13");
+            dates.add("2024-05-19"); // id:332 &league_id=332&match_id=324365
             return dates;
         }
         private String getPreviousDate(String currentDate) {
@@ -247,7 +247,7 @@
                             txtNgay.setText(date2);
 
                             matches.clear();
-                            matches.add(new Match("-","-",null," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
+                            matches.add(new Match("-","-"," "," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                             matchAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         try {
@@ -326,7 +326,7 @@
                                                     break;
                                             }
                                         }
-                                        matches.add(new Match(id,convertDateTime.getConvertedTime(),null,nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway,ballPH,ballPA, ShotsTH,ShotsTA ,ShotsOGH ,ShotsOGA , FoulsH, FoulsA,CHome , CAway, OsHome,OsAway));
+                                        matches.add(new Match(id,convertDateTime.getConvertedTime()," ",nameHome,nameAway,scoreHome,scoreAway,photoHome,photoAway,ballPH,ballPA, ShotsTH,ShotsTA ,ShotsOGH ,ShotsOGA , FoulsH, FoulsA,CHome , CAway, OsHome,OsAway));
                                         Log.d("DoiBong",   " " + convertDateTime.getConvertedTime() + " " + nameHome + " " + nameAway + " " + scoreHome+ " " +scoreAway + " " +photoAway + " " +photoAway );
                                         Collections.sort(matches, Match.timeComparator);
 
@@ -339,7 +339,7 @@
                                 txtNgay.setText(date2);
 
                                 matches.clear();
-                                matches.add(new Match("-",null,"-"," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
+                                matches.add(new Match("-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                                 matchAdapter.notifyDataSetChanged();
                             }
 
