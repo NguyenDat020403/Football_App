@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HeadToHeadActivity">
+
+    <TextView
+        android:id="@+id/headToHeadTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="- HEAD TO HEAD -"
+        android:textSize="28dp"
+        android:fontFamily="@font/premierleague"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <RelativeLayout
+        android:id="@+id/relContent"
+        android:layout_below="@id/headToHeadTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvLichSuDau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal" />
+        <ProgressBar
+            android:id="@+id/pgbHeadtoHead"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:gravity="center"
+        android:fontFamily="@font/premierleague"
+        android:id="@+id/home_team_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relContent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Home Team Last 10 Matches"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:id="@+id/relContent2"
+        android:layout_width="match_parent"
+        android:layout_below="@id/home_team_title"
+        android:layout_height="250dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvHomeTeam"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp" />
+        <ProgressBar
+            android:id="@+id/pgbLast10MatchHome"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+
+        android:fontFamily="@font/premierleague"
+        android:id="@+id/away_team_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relContent2"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Away Team Last 10 Matches"
+        android:textSize="18sp" />
+    <RelativeLayout
+        android:id="@+id/relContent3"
+        android:layout_width="match_parent"
+        android:layout_below="@id/away_team_title"
+        android:layout_height="250dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvAwayTeam"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp" />
+        <ProgressBar
+            android:id="@+id/pgbLast10MatchAway"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</RelativeLayout>

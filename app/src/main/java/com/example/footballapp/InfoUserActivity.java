@@ -34,14 +34,19 @@ import androidx.appcompat.view.menu.MenuView;
 
 import com.bumptech.glide.Glide;
 import com.example.footballapp.databinding.ActivityInfoUserBinding;
+import com.example.footballapp.model.User;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.Objects;
@@ -56,7 +61,8 @@ public class InfoUserActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher;
     Uri PhotoUri;
 
-    DatabaseReference databaseReference;
+    private DatabaseReference mDatabase;
+
     FirebaseAuth mAuth;
     StorageReference storageProfilePicsRef;
 
@@ -67,21 +73,63 @@ public class InfoUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInfoUserBinding.inflate(getLayoutInflater());
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
         binding.bottomNavigation.setSelectedItemId(R.id.nav_profile);
-
-
         setContentView(binding.getRoot());
         Anhxa();
         mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         storageProfilePicsRef = FirebaseStorage.getInstance().getReference().child("Profile Pic");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        
+        writeNewUser();
         addEvents();
+        passUserData();
         getCurrentUserInfo();
         photoUserChange();
     }
+    public void writeNewUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        String userId = user.getUid();
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+        String phoneNumber = "User Phone Number"; // Thay thế bằng số điện thoại thực tế
+        String address = "User Address"; // Thay thế bằng địa chỉ thực tế
+
+        User userProfile = new User(name, email, photoUrl, phoneNumber, address);
+
+        mDatabase.child("users").child(userId).setValue(userProfile);
+    }
+    public void passUserData(){
+        String userUserName = binding.txtUserName.getText().toString().trim();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
+        Query checkUserDatabase = reference.orderByChild("username").equalTo(userUserName);
+        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String nameFromDB = snapshot.child(userUserName).child("name").getValue(String.class);
+                    String emailFromDB = snapshot.child(userUserName).child("email").getValue(String.class);
+                    String usernameFromDB = snapshot.child(userUserName).child("username").getValue(String.class);
+                    String passwordFromDB = snapshot.child(userUserName).child("password").getValue(String.class);
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
+                    reference.child(userUserName).child("email").setValue(binding.edtEmailChange.getText().toString());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+
+
     // Lưu Uri vào SharedPreferences
     // Upload ảnh lên Firebase Storage
 //    private void uploadImageToFirebaseStorage(Uri imageUri) {
@@ -289,50 +337,51 @@ public class InfoUserActivity extends AppCompatActivity {
 
 
     private void photoUserChange() {
-
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result ->{
-            if(result.getResultCode() == RESULT_OK && result.getData() != null){
-                if(captureState){//camera
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                if (captureState) { // Camera
                     Bitmap bitmap = (Bitmap) Objects.requireNonNull(result.getData().getExtras()).get("data");
                     assert bitmap != null;
                     PhotoUri = Uri.parse(String.valueOf(bitmap));
                     imvPhotoUser.setImageBitmap(bitmap);
-//                    uploadImageToFirebaseStorage(Uri.parse(bitmap.toString()));
-                }else{
+                } else { // Gallery
                     PhotoUri = result.getData().getData();
                     imvPhotoUser.setImageURI(PhotoUri);
-//                    uploadImageToFirebaseStorage(PhotoUri);
                 }
-
+                Log.d("ANh photoUserChange", " " + PhotoUri);
             }
         });
-        Log.d("ANh photoUserChange", " "+PhotoUri);
+
         binding.btnSaveChange.setOnClickListener(v -> changeUserInfo());
     }
 
 
 
+
     private void changeUserInfo() {
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(!choseImv){
-            assert user != null;
-            PhotoUri = Uri.parse(Objects.requireNonNull(user.getPhotoUrl()).toString());
-        }
-        Log.d("ANh changeUserInfo", " "+PhotoUri);
+        if (user != null) {
+            // Kiểm tra nếu PhotoUri không null trước khi sử dụng
+            if (PhotoUri != null) {
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(binding.edtUserName.getText().toString())
+                        .setPhotoUri(PhotoUri)
+                        .build();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(binding.edtUserName.getText().toString())
-                .setPhotoUri(PhotoUri)
-                .build();
-        assert user != null;
-        user.updateProfile(profileUpdates).addOnSuccessListener(unused -> {
-            Toast.makeText(InfoUserActivity.this, "Đã cập nhật.", Toast.LENGTH_SHORT).show();
-            getCurrentUserInfo();
-        });
-            binding.btnSaveChange.setVisibility(View.GONE);
-            binding.edtUserName.setEnabled(false);
-            binding.edtEmailChange.setEnabled(false);
+                user.updateProfile(profileUpdates).addOnSuccessListener(unused -> {
+                    Toast.makeText(InfoUserActivity.this, "Đã cập nhật.", Toast.LENGTH_SHORT).show();
+                    getCurrentUserInfo();
+                });
+
+                binding.btnSaveChange.setVisibility(View.GONE);
+                binding.edtUserName.setEnabled(false);
+                binding.edtEmailChange.setEnabled(false);
+            } else {
+                // Xử lý trường hợp PhotoUri null
+                Log.e("InfoUserActivity", "PhotoUri is null");
+                // Hiển thị thông báo hoặc thực hiện hành động phù hợp
+            }
+        }
     }
 
 
@@ -345,9 +394,14 @@ public class InfoUserActivity extends AppCompatActivity {
             
             String email = user.getEmail();
 
-            Log.d("ANh", Objects.requireNonNull(user.getPhotoUrl()).toString());
-            Glide.with(InfoUserActivity.this).load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl())).into(imvPhotoUser);
-//            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imvPhotoUser);
+//            Log.d("ANh", Objects.requireNonNull(user.getPhotoUrl()).toString());
+            Uri photoUrl = user.getPhotoUrl();
+            if (photoUrl != null) {
+                Log.d("ANh", photoUrl.toString());
+                Glide.with(InfoUserActivity.this).load(photoUrl).into(imvPhotoUser);
+            } else {
+                // Xử lý trường hợp khi photoUrl là null, có thể làm gì đó như hiển thị ảnh mặc định hoặc thông báo cho người dùng.
+            }//            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imvPhotoUser);
 //            displayUserProfileImage();
             if (name == null){
                 binding.txtUserName.setText("User");

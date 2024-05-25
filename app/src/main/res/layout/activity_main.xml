@@ -31,9 +31,10 @@
             android:src="@drawable/competition_1_small" />
 
         <TextView
+            android:fontFamily="@font/premierleague"
             android:padding="5dp"
             android:id="@+id/txtGiaiDau"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"

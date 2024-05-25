@@ -43,6 +43,7 @@ public class matchLiveAdapter extends BaseAdapter {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_livescore,  parent, false);
         }
         Match match = matches.get(position);
+        TextView txtLive = view.findViewById(R.id.txtLive);
         TextView txtTime = view.findViewById(R.id.txtTime);
         TextView txtnameHome = view.findViewById(R.id.txtDoi1);
         TextView txtnameAway = view.findViewById(R.id.txtDoi2);
@@ -61,7 +62,14 @@ public class matchLiveAdapter extends BaseAdapter {
         TextView txtFoulsAway= view.findViewById(R.id.txtFoulsAway);
         TextView txtTimeLive = view.findViewById(R.id.txtTimeLive);
 
-        txtTimeLive.setText(match.getMatchStatus());
+        if(!match.getMatchStatus().equals("Finished") && !match.getMatchStatus().equals("Half Time")){
+            txtTimeLive.setText(match.getMatchStatus() + "'");
+            txtLive.setVisibility(View.VISIBLE);
+
+        }else{
+            txtLive.setVisibility(View.GONE);
+            txtTimeLive.setText(match.getMatchStatus());
+        }
 
         txtBallPossesionHome.setText(match.getBallPossessionHome());
         txtBallPossesionAway.setText(match.getBallPossessionAway());

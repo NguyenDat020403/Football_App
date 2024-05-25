@@ -55,7 +55,6 @@ public class LoginPhoneActivity extends AppCompatActivity {
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             final String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
-                // Optionally, auto-fill the OTP field for the user
                 binding.edtOTP.setText(code);
                 Toast.makeText(LoginPhoneActivity.this, "Mã OTP đã được nhận tự động. Vui lòng nhấn Xác thực.", Toast.LENGTH_SHORT).show();
             }
@@ -149,11 +148,10 @@ public class LoginPhoneActivity extends AppCompatActivity {
     private void sendverificationcode(String numberPhone) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+84" + numberPhone)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // (optional) Activity for callback binding
-                        // If no activity is passed, reCAPTCHA verification can not be used.
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .setPhoneNumber("+84" + numberPhone)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(mCallbacks)
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }

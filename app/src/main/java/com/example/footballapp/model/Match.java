@@ -51,7 +51,17 @@ public class Match {
         OffsidesHome = offsidesHome;
         OffsidesAway = offsidesAway;
     }
-
+    public Match(String ID, String time, String matchStatus, String nameHome, String nameAway, String scoreHome, String scoreAway, String photoHome, String photoAway) {
+        this.ID = ID;
+        Time = time;
+        this.matchStatus = matchStatus;
+        this.nameHome = nameHome;
+        this.nameAway = nameAway;
+        this.scoreHome = scoreHome;
+        this.scoreAway = scoreAway;
+        this.photoHome = photoHome;
+        this.photoAway = photoAway;
+    }
     public String getID() {
         return ID;
     }

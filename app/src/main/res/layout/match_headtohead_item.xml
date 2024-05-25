@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:layout_margin="15dp"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/txtTimeMatch"
+            android:text="DateTime"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="5dp"
+        android:weightSum="7"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <LinearLayout
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/team_home_badge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/team_home_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Home Team"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:id="@+id/match_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Score"
+            android:layout_gravity="center"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+            <TextView
+                android:id="@+id/team_away_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Away Team"
+                android:layout_gravity="center"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/team_away_badge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

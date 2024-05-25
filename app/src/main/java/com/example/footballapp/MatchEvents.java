@@ -3,6 +3,8 @@
     import androidx.annotation.NonNull;
     import androidx.annotation.RequiresApi;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.fragment.app.FragmentManager;
+
     import android.content.Intent;
     import android.os.Build;
     import android.os.Bundle;
@@ -30,6 +32,7 @@
     import com.example.footballapp.adapter.matchAdapter;
     import com.example.footballapp.databinding.ActivityMatchEventsBinding;
     import com.example.footballapp.model.Match;
+    import com.example.footballapp.model.VideoDialogFragment;
     import com.google.android.material.navigation.NavigationBarView;
 
     import org.json.JSONArray;
@@ -154,6 +157,28 @@
                                         Log.d("IDMATCH", " " + matchClicked.getID());
                                     });
                                 }
+                                Button btnHeadtoHead = layout.findViewById(R.id.btnHeadtoHead);
+                                btnHeadtoHead.setOnClickListener(v->{
+                                    openHeadtoHead(matchClicked.getNameHome(),matchClicked.getNameAway(),new TeamIdsCallback(){
+                                        @Override
+                                        public void onTeamIdsRetrieved(String teamIdHome, String teamIdAway) {
+                                            // Xử lý các teamId ở đây
+//                                            headtoHeadDetails(teamIdHome,teamIdAway);
+                                            Log.d(teamIdHome,teamIdAway);
+                                            Intent i = new Intent(MatchEvents.this, HeadToHeadActivity.class);
+                                            i.putExtra("idTeamHome", teamIdHome);
+                                            i.putExtra("idTeamAway", teamIdAway);
+                                            startActivity(i);
+                                        }
+
+                                        @Override
+                                        public void onError(String errorMessage) {
+                                            // Xử lý lỗi ở đây
+                                            Toast.makeText(MatchEvents.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    });
+                                });
                             }
 
                         } else {
@@ -164,10 +189,55 @@
             });
 
         }
+        public interface TeamIdsCallback {
+            void onTeamIdsRetrieved(String teamIdHome, String teamIdAway);
+            void onError(String errorMessage);
+        }
+
+        public void openHeadtoHead(String nameHome, String nameAway, TeamIdsCallback callback) {
+            final String[] teamIdHome = new String[1];
+            final String[] teamIdAway = new String[1];
+            RequestQueue requestQueue = Volley.newRequestQueue(MatchEvents.this);
+            String url = "https://apiv3.apifootball.com/?action=get_teams&league_id=152&APIkey=" + getString(R.string.api_key);
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String nameTeam = jsonObject.getString("team_name");
+
+                        if (nameTeam.equals(nameHome)) {
+                            teamIdHome[0] = jsonObject.getString("team_key");
+                        }
+                        if (nameTeam.equals(nameAway)) {
+                            teamIdAway[0] = jsonObject.getString("team_key");
+                        }
+                    }
+
+                    if (teamIdHome[0] != null && teamIdAway[0] != null) {
+                        callback.onTeamIdsRetrieved(teamIdHome[0], teamIdAway[0]);
+                    } else {
+                        callback.onError("Team IDs not found.");
+                    }
+                } catch (JSONException e) {
+                    callback.onError("JSON parsing error: " + e.getMessage());
+                }
+            }, error -> {
+                callback.onError("Volley error: " + error.getMessage());
+            });
+
+            requestQueue.add(stringRequest);
+        }
+
+
         private void showVideoDialog(String videoUrl) {
-            Intent intent = new Intent(MatchEvents.this, MatchVideoActivity.class);
-            intent.putExtra("urlVideo",videoUrl);
-            startActivity(intent);
+//            Intent intent = new Intent(MatchEvents.this, MatchVideoActivity.class);
+//            intent.putExtra("urlVideo",videoUrl);
+//            startActivity(intent);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            VideoDialogFragment videoDialogFragment = VideoDialogFragment.newInstance(videoUrl);
+            videoDialogFragment.show(fragmentManager, "video_dialog");
         }
 
 
@@ -360,27 +430,21 @@
 
         private ConvertDateTime chuyenDoiMoiMuiGio(String time, String DATE) {
             try {
-                // Định dạng thời gian từ chuỗi ngày và thời gian
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                inputFormat.setTimeZone(TimeZone.getTimeZone("GMT+1")); // Đặt múi giờ của API (UTC)
+                inputFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
 
 
                 SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-                outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh")); // Đặt múi giờ của bạn (Asia/Ho_Chi_Minh)
+                outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
 
 
                 SimpleDateFormat outputDATEFormat = new SimpleDateFormat("EEEE dd-MM-yyyy", Locale.getDefault());
-                outputDATEFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh")); // Đặt múi giờ của bạn (Asia/Ho_Chi_Minh)
-
-                // Parse thời gian từ chuỗi "2024-03-04 21:00"
+                outputDATEFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
                 Date date = inputFormat.parse(DATE + " " + time);
-
                 String convertedDate = outputDATEFormat.format(date);
-                // Format lại thời gian theo định dạng mong muốn
                 String convertedTime = outputFormat.format(date);
                 txtNgay.setText(convertedDate);
-                // Trả về một đối tượng ConvertedDateTime chứa cả hai giá trị
                 return new ConvertDateTime(convertedTime, convertedDate);
             } catch (Exception e) {
                 e.printStackTrace();

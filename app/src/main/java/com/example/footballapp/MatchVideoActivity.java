@@ -14,40 +14,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.footballapp.model.VideoDialogFragment;
 
 public class MatchVideoActivity extends AppCompatActivity {
 
-    VideoView viewVideo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_video);
         Intent intent = getIntent();
-        String UrlVideo = intent.getStringExtra("urlVideo");
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        viewVideo = findViewById(R.id.videoView);
-        viewVideo.setVideoURI(Uri.parse(UrlVideo));
-        MediaController mediaController = new MediaController(MatchVideoActivity.this);
-        mediaController.setAnchorView(viewVideo);
+        String urlVideo = intent.getStringExtra("urlVideo");
 
-        viewVideo.setMediaController(mediaController);
-        viewVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-        });
+        // Show the video dialog
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        VideoDialogFragment videoDialogFragment = VideoDialogFragment.newInstance(urlVideo);
+        videoDialogFragment.show(fragmentManager, "video_dialog");
     }
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            );
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if(hasFocus){
+//            View decorView = getWindow().getDecorView();
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+//                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN |
+//                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//            );
+//        }
+//    }
 }

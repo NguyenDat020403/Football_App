@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.footballapp.databinding.ActivityLoginBinding;
+import com.example.footballapp.model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -49,6 +50,8 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtregister;
     private TextView txtforgotPassword;
     FirebaseAuth mAuth;
-
     public static GoogleSignInClient googleSignInClient;
     String default_web_client_id = "708486072632-7pq7v8t8a8uo7r7llahg4eb09ioif9us.apps.googleusercontent.com";
 
@@ -90,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 mAuth = FirebaseAuth.getInstance();
                                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
-
                                 Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
                                 startActivity(intent);
                             }
@@ -106,13 +107,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     });
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         initLogin();
         addEvents();
+        Log.d("Key",getString(R.string.api_key));
     }
 
     private void addEvents() {
@@ -203,7 +208,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
                             startActivity(intent);

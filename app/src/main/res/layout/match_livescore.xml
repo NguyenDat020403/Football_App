@@ -13,12 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/txtLive"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:drawableStartCompat="@drawable/live" />
         <TextView
             android:id="@+id/txtTimeLive"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text="27'"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -36,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="03:00"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
         <LinearLayout
             android:layout_weight="12"
             android:weightSum="15"
@@ -49,7 +50,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="6"
                 android:id="@+id/txtDoi1"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:text="Manchester City"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
@@ -70,7 +71,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="3 - 1"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
@@ -93,7 +94,7 @@
                 android:layout_weight="6"
                 android:gravity="left"
                 android:text="Manchester City"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
