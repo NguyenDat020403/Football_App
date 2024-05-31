@@ -7,11 +7,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.footballapp.NewsActivity;
 import com.example.footballapp.R;
 import com.example.footballapp.model.Match;
 import com.example.footballapp.model.News;
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.List;
 
 public class NewsAdapter extends BaseAdapter {
@@ -47,19 +50,17 @@ public class NewsAdapter extends BaseAdapter {
         TextView txtTitle = view.findViewById(R.id.txtTitle);
         if (txtTitle != null) {
             txtTitle.setText(news.getTitle());
+        }else{
+            txtTitle.setText("...");
         }
-//        TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
-//        if (txtShortDesc != null) {
-//            txtShortDesc.setText(news.getShort_desc());
-//        }
 
         ImageView imvPhotoNews = view.findViewById(R.id.imvNewsPhoto);
         if (news.getImage() != null && !news.getImage().isEmpty()) {
-            Picasso.get().load(news.getImage()).into(imvPhotoNews);
-        } else {
-            Picasso.get().load("https://apiv3.apifootball.com/badges/logo_leagues/152_premier-league.png").into(imvPhotoNews);
-        }
+            Glide.with(view).load(news.getImage()).into(imvPhotoNews);
 
+        } else {
+            Glide.with(view).load("https://apiv3.apifootball.com/badges/logo_leagues/152_premier-league.png").into(imvPhotoNews);
+        }
         return view;
     }
 }

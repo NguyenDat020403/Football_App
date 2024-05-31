@@ -87,7 +87,8 @@ public class leagueSelect extends AppCompatActivity {
 
 
     private void getMatch(String date){
-
+        binding.pgbLiveMatch.setVisibility(View.VISIBLE);
+        binding.relLiveMatch.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(leagueSelect.this);
         String url = "https://apiv3.apifootball.com/?action=get_events&from="+date+"&to="+date+"&APIkey=" + getString(R.string.api_key) +"&timezone=Asia/Bangkok&match_live=1";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -99,7 +100,7 @@ public class leagueSelect extends AppCompatActivity {
                     String mess = jsonObject1.getString("error");
                     Log.d("DoiBong",mess   );
                     matches.clear();
-                    matches.add(new Match("-","-",null," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
+                    matches.add(new Match("-","-"," "," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                     liveMatchAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     try {
@@ -179,10 +180,9 @@ public class leagueSelect extends AppCompatActivity {
 
                         }
                         if(matches.isEmpty()){
-
-                            matches.add(new Match("-","-",null," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
-                            liveMatchAdapter.notifyDataSetChanged();
+                            binding.relLiveMatch.setVisibility(View.GONE);
                         }
+                        binding.pgbLiveMatch.setVisibility(View.GONE);
 
                     } catch (JSONException ex) {
                         throw new RuntimeException(ex);
@@ -207,10 +207,19 @@ public class leagueSelect extends AppCompatActivity {
                 }
                 doubleBackToExitPressedOnce = true;
                 Toast.makeText(leagueSelect.this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
-                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
 
             }
         });
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     private void addEvents() {

@@ -23,9 +23,6 @@
             android:name=".HeadToHeadActivity"
             android:exported="false" />
         <activity
-            android:name=".LiveScoreActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginPhoneActivity"
             android:exported="false" />
 

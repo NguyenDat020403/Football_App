@@ -7,38 +7,12 @@
     tools:context=".LiveScoreActivity"
     android:background="#FFFFFF">
 
-    <LinearLayout
-        android:id="@+id/header_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#000000"
-        android:orientation="horizontal"
-        android:padding="10dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/competition_1_small"
-            android:layout_marginEnd="10dp" />
-
-        <TextView
-            android:id="@+id/txtWeek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Live Scores"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <ListView
         android:id="@+id/lvLiveScore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header_layout"
         android:layout_marginBottom="100dp"
         android:layout_marginTop="10dp"
         android:padding="5dp" />

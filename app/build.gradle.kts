@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation ("com.google.code.gson:gson:2.11.0")
     implementation ("com.facebook.android:facebook-android-sdk:latest.release")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-firestore")

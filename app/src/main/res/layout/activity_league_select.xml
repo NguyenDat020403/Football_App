@@ -20,15 +20,24 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"/>
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relLiveMatch"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="150dp">
+
+        <ProgressBar
+            android:id="@+id/pgbLiveMatch"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
         <ListView
             android:id="@+id/lvLiveMatch"
-            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:padding="5dp" />
+    </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="20dp"
         android:weightSum="2"

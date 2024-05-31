@@ -54,7 +54,6 @@ public class NewsActivity extends AppCompatActivity {
     LinearLayout lnAll,lnLaliga,lnOneFootball,lnGoal,lnFourFourTwo;
 
     NewsAdapter newsAdapter = new NewsAdapter(newsList);
-    private boolean doubleBackToExitPressedOnce = false;
     ActivityNewsBinding binding;
 
     @Override
@@ -70,29 +69,6 @@ public class NewsActivity extends AppCompatActivity {
         lv.setAdapter(newsAdapter);
         Anhxa();
         addNavEvents();
-//        OnBackPressedDispatcher onBackPressedDispatcher = getOnBackPressedDispatcher();
-//        onBackPressedDispatcher.addCallback(this, new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                if (doubleBackToExitPressedOnce) {
-//                    finishAffinity();
-//                    return;
-//                }
-//                doubleBackToExitPressedOnce = true;
-//                Toast.makeText(NewsActivity.this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        doubleBackToExitPressedOnce = false;
-//                    }
-//                }, 2000);
-//
-//            }
-//        });
-//        View decorView = getWindow().getDecorView();
-//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(uiOptions);
         addEvents();
     }
     private void addNavEvents() {
@@ -135,101 +111,31 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-//        lnAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newsList.clear();
-//                getNews("");
-//            }
-//        });
-        getNews("fourfourtwo/laliga","url","news_img","title");
-//        lnLaliga.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newsList.clear();
-//                getNews("fourfourtwo/laliga","url","news_img","title");
-//            }
-//        });
-//        lnOneFootball.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newsList.clear();
-//                getNews("onefootball","url","img","title");
-//            }
-//        });
-//        lnGoal.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newsList.clear();
-//                getNews("goal","url","news_img","modifiedTitle3");
-//            }
-//        });
-//        lnFourFourTwo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newsList.clear();
-//                getNews("fourfourtwo/epl");
-//            }
-//        });
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                News selectedNews = newsList.get(position);
-//                String url = selectedNews.getUrl();
-//
-//                // Tạo Intent để mở trình duyệt web với URL được chọn
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setData(Uri.parse(url));
-//
-//                // Kiểm tra xem thiết bị có ứng dụng nào có thể xử lý Intent này không
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    // Mở trình duyệt web nếu có ứng dụng có thể xử lý Intent
-//                    startActivity(intent);
-//                } else {
-//                    // Xử lý trường hợp không có ứng dụng nào có thể xử lý Intent
-//                    Toast.makeText(NewsActivity.this, "Không thể mở trình duyệt", Toast.LENGTH_SHORT).show();
-//                }
-                openUrlInDefaultBrowser("https://example.com");
+        getNews("fourfourtwo/epl", "url","news_img","title");
+        binding.lnEPL.setOnClickListener(v -> {
+            newsList.clear();
+            binding.pgbNewsLoad.setVisibility(View.VISIBLE);
+            getNews("fourfourtwo/epl", "url","news_img","title");
+        });
+        binding.lnOneFootball.setOnClickListener(v -> {
+            newsList.clear();
+            binding.pgbNewsLoad.setVisibility(View.VISIBLE);
+            getNews("onefootball","url","img","title");
+        });
 
-            }
+        binding.lnUCL.setOnClickListener(v -> {
+            newsList.clear();
+            binding.pgbNewsLoad.setVisibility(View.VISIBLE);
+            getNews("fourfourtwo/ucl","url","news_img","title");
+        });
+        binding.lnESPN.setOnClickListener(v -> {
+            newsList.clear();
+            binding.pgbNewsLoad.setVisibility(View.VISIBLE);
+            getNews("espn","url","img","title");
         });
     }
-    private void openUrlInDefaultBrowser(String url) {
-        // Tạo Intent với hành động ACTION_VIEW và đường dẫn URL
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-        // Kiểm tra xem có ứng dụng nào có thể xử lý Intent này không
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            // Mở Intent
-            startActivity(intent);
-        } else {
-            // Không có ứng dụng nào có thể xử lý Intent
-            Toast.makeText(this, "Không tìm thấy trình duyệt web.", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void onImageClick(View view) {
-        // Đặt trạng thái selected cho ImageView được nhấp
-//        view.setSelected(true);
-//
-//        // Xóa trạng thái selected của tất cả các ImageView khác
-//        ImageView imageView1 = findViewById(R.id.imvHome);
-//        ImageView imageView2 = findViewById(R.id.imvFixtures);
-//        ImageView imageView3 = findViewById(R.id.imvPlayers);
-//        ImageView imageView4 = findViewById(R.id.imvTables);
-//        ImageView imageView5 = findViewById(R.id.imvOption);
-//
-//        // Thêm các ImageView còn lại tương tự
-//        int defaultColor = ContextCompat.getColor(this, R.color.white);
-//        imageView1.setBackgroundColor(defaultColor);
-//        imageView2.setBackgroundColor(defaultColor);
-//        imageView3.setBackgroundColor(defaultColor);
-//        imageView4.setBackgroundColor(defaultColor);
-//        imageView5.setBackgroundColor(defaultColor);
-//        int selectedColor = ContextCompat.getColor(this, R.color.colorButton); // Định nghĩa màu nền khi được chọn
-//
-//        view.setBackgroundColor(selectedColor);
 
-    }
     private void getNews(String type,String urlNews, String imgNews, String titleNews) {
         RequestQueue requestQueue = Volley.newRequestQueue(NewsActivity.this);
         String url = "https://football-news-aggregator-live.p.rapidapi.com/news/"+ type;
@@ -241,11 +147,11 @@ public class NewsActivity extends AppCompatActivity {
                     String urlNew = jsonObject.getString(urlNews);
                     String tiTle = jsonObject.getString(titleNews);
                     String news_img = jsonObject.getString(imgNews);
-//                    String short_desc = jsonObject.getString("short_desc");
                     newsList.add(new News(urlNew,tiTle,news_img));
-                    Log.e(TAG, " " +urlNew + tiTle + news_img );
+                    Log.e(TAG, urlNew + tiTle + news_img );
                 }
                 newsAdapter.notifyDataSetChanged();
+                binding.pgbNewsLoad.setVisibility(View.GONE);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }

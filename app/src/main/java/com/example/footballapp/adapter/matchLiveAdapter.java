@@ -48,18 +48,7 @@ public class matchLiveAdapter extends BaseAdapter {
         TextView txtnameHome = view.findViewById(R.id.txtDoi1);
         TextView txtnameAway = view.findViewById(R.id.txtDoi2);
         TextView txtScore = view.findViewById(R.id.txtTiSo);
-        TextView txtBallPossesionHome = view.findViewById(R.id.txtBallPossessionHome);
-        TextView txtBallPossesionAway= view.findViewById(R.id.txtBallPossessionAway);
-        TextView txtShotsTotalHome = view.findViewById(R.id.txtShotsTotalHome);
-        TextView txtShotsTotalAway= view.findViewById(R.id.txtShotsTotalAway);
-        TextView txtShotsOnGoalAway= view.findViewById(R.id.txtShotsOnGoalAway);
-        TextView txtShotsOnGoalHome= view.findViewById(R.id.txtShotsOnGoalHome);
-        TextView txtCornersHome= view.findViewById(R.id.txtCornersHome);
-        TextView txtCornersAway= view.findViewById(R.id.txtCornersAway);
-        TextView txtOffsidesHome= view.findViewById(R.id.txtOffsidesHome);
-        TextView txtOffsidesAway= view.findViewById(R.id.txtOffsidesAway);
-        TextView txtFoulsHome= view.findViewById(R.id.txtFoulsHome);
-        TextView txtFoulsAway= view.findViewById(R.id.txtFoulsAway);
+
         TextView txtTimeLive = view.findViewById(R.id.txtTimeLive);
 
         if(!match.getMatchStatus().equals("Finished") && !match.getMatchStatus().equals("Half Time")){
@@ -71,21 +60,6 @@ public class matchLiveAdapter extends BaseAdapter {
             txtTimeLive.setText(match.getMatchStatus());
         }
 
-        txtBallPossesionHome.setText(match.getBallPossessionHome());
-        txtBallPossesionAway.setText(match.getBallPossessionAway());
-
-        txtShotsTotalHome.setText(match.getShotsTotalHome());
-        txtShotsTotalAway.setText(match.getShotsTotalAway());
-
-        txtShotsOnGoalAway.setText(match.getShotsOnGoalAway());
-        txtShotsOnGoalHome.setText(match.getShotsOnGoalHome());
-
-        txtCornersHome.setText(match.getCornersHome());
-        txtCornersAway.setText(match.getCornersAway());
-        txtOffsidesHome.setText(match.getOffsidesHome());
-        txtOffsidesAway.setText(match.getOffsidesAway());
-        txtFoulsHome.setText(match.getFoulsHome());
-        txtFoulsAway.setText(match.getFoulsAway());
 
 
 
