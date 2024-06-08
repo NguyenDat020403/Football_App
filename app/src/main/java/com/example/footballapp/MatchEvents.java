@@ -163,7 +163,6 @@
                                         @Override
                                         public void onTeamIdsRetrieved(String teamIdHome, String teamIdAway) {
                                             // Xử lý các teamId ở đây
-//                                            headtoHeadDetails(teamIdHome,teamIdAway);
                                             Log.d(teamIdHome,teamIdAway);
                                             Intent i = new Intent(MatchEvents.this, HeadToHeadActivity.class);
                                             i.putExtra("idTeamHome", teamIdHome);

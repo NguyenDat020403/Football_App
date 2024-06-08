@@ -74,9 +74,6 @@ public class LoginActivity extends AppCompatActivity {
     public static GoogleSignInClient googleSignInClient;
     String default_web_client_id = "708486072632-7pq7v8t8a8uo7r7llahg4eb09ioif9us.apps.googleusercontent.com";
 
-    private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
-    private boolean showOneTapUI = true;
-
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -182,9 +179,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
-//                Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
-//                startActivity(intent);
             }
 
             @Override
@@ -204,19 +198,16 @@ public class LoginActivity extends AppCompatActivity {
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
-                            startActivity(intent);
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(LoginActivity.this, leagueSelect.class);
+                        startActivity(intent);
 
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
 
-                        }
                     }
                 });
     }
@@ -230,26 +221,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        FirebaseAuth.getInstance().signOut();
-//        googleSignInClient.signOut();
-//
-//    }
 
     private void resetPassword() {
         Intent i = new Intent(LoginActivity.this,ResetPasswordActivity.class);
         startActivity(i);
     }
 
-
-    //    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        FirebaseAuth.getInstance().signOut();
-//        googleSignInClient.signOut();
-//    }
     private void login() {
         String email,pass;
         email = emailEdit.getText().toString();

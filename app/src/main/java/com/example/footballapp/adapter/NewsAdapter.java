@@ -57,7 +57,6 @@ public class NewsAdapter extends BaseAdapter {
         ImageView imvPhotoNews = view.findViewById(R.id.imvNewsPhoto);
         if (news.getImage() != null && !news.getImage().isEmpty()) {
             Glide.with(view).load(news.getImage()).into(imvPhotoNews);
-
         } else {
             Glide.with(view).load("https://apiv3.apifootball.com/badges/logo_leagues/152_premier-league.png").into(imvPhotoNews);
         }

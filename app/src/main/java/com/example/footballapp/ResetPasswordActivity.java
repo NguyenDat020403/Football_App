@@ -20,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.footballapp.databinding.ActivityResetPasswordBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,47 +29,44 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import java.util.List;
 
 public class ResetPasswordActivity extends AppCompatActivity {
-    private EditText edtEmailReset;
-    private Button btnResetPassword;
-    private ImageView imvBackLogin;
-    private ProgressBar progressBar;
+    ActivityResetPasswordBinding binding;
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        binding = ActivityResetPasswordBinding.inflate(getLayoutInflater());
         Transition explode = new Explode();
         explode.setDuration(1000);
         getWindow().setEnterTransition(explode);
-        setContentView(R.layout.activity_reset_password);
-        Anhxa();
+        setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
-        imvBackLogin.setOnClickListener(new View.OnClickListener() {
+        binding.imvBackLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ResetPasswordActivity.this,LoginActivity.class);
+                Intent i = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
+
+        binding.btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = edtEmailReset.getText().toString().trim();
+                final String email = binding.edtemailReset.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplication(), "Nhập địa chỉ email đã đăng ký của bạn", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.VISIBLE);
                 auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
                                 Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(ResetPasswordActivity.this, "Gửi yêu cầu thành công! Vui lòng kiểm tra email để đặt lại mật khẩu!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ResetPasswordActivity.this, "Yêu cầu thất bại!", Toast.LENGTH_SHORT).show();
                             }
-                            progressBar.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                         });
             }
         });
@@ -80,10 +78,4 @@ public class ResetPasswordActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
-    private void Anhxa() {
-        edtEmailReset = findViewById(R.id.edtemailReset);
-        btnResetPassword = findViewById(R.id.btnResetPassword);
-        imvBackLogin = findViewById(R.id.imvBackLogin);
-        progressBar = findViewById(R.id.progressBar);
-    }
 }

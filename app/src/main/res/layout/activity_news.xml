@@ -27,11 +27,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="8"
-            android:fontFamily="@font/promptmedium"
+            android:fontFamily="@font/premierleague"
             android:gravity="center"
-            android:text="PREMIER LEAGUE NEWS 2023/2024"
+            android:text="NEWS 2023/2024"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
     </LinearLayout>
     <HorizontalScrollView
         android:padding="10dp"
