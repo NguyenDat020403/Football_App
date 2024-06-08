@@ -35,6 +35,7 @@ import androidx.appcompat.view.menu.MenuView;
 import com.bumptech.glide.Glide;
 import com.example.footballapp.databinding.ActivityInfoUserBinding;
 import com.example.footballapp.model.User;
+import com.example.footballapp.model.UserResponse;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -49,6 +50,15 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Objects;
 
 public class InfoUserActivity extends AppCompatActivity {
@@ -77,30 +87,60 @@ public class InfoUserActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Anhxa();
         mAuth = FirebaseAuth.getInstance();
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         storageProfilePicsRef = FirebaseStorage.getInstance().getReference().child("Profile Pic");
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        writeNewUser();
+        exportsUser();
         addEvents();
         passUserData();
         getCurrentUserInfo();
         photoUserChange();
     }
-    public void writeNewUser() {
+
+    private void exportsUser() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        String userId = user.getUid();
-        String name = user.getDisplayName();
-        String email = user.getEmail();
-        String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
-        String phoneNumber = "User Phone Number"; // Thay thế bằng số điện thoại thực tế
-        String address = "User Address"; // Thay thế bằng địa chỉ thực tế
+        if (user != null) {
+            String userId = user.getUid();
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            String photourl = String.valueOf(user.getPhotoUrl());
+            UserResponse userResponse = new UserResponse(userId, name, email,photourl);
 
-        User userProfile = new User(name, email, photoUrl, phoneNumber, address);
+            // Convert UserResponse to JSON
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonResponse = gson.toJson(userResponse);
 
-        mDatabase.child("users").child(userId).setValue(userProfile);
+            // Write JSON to file
+            writeToFile(jsonResponse);
+        }
     }
+
+    private void writeToFile(String jsonResponse) {
+        // Define the file name and path
+        String fileName = "user_response.json";
+        File path = getApplicationContext().getFilesDir();
+        File file = new File(path, fileName);
+
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(stream);
+            BufferedWriter writer = new BufferedWriter(outputStreamWriter);
+
+            // Write JSON response to the file
+            writer.write(jsonResponse);
+
+            writer.close();
+            outputStreamWriter.close();
+            stream.close();
+
+            Toast.makeText(this, "Data written to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error writing file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
     public void passUserData(){
         String userUserName = binding.txtUserName.getText().toString().trim();
 
@@ -130,91 +170,6 @@ public class InfoUserActivity extends AppCompatActivity {
 
 
 
-    // Lưu Uri vào SharedPreferences
-    // Upload ảnh lên Firebase Storage
-//    private void uploadImageToFirebaseStorage(Uri imageUri) {
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        assert user != null;
-//        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
-//                .child("user_profile_images").child(user.getUid()); // userId là ID của người dùng
-//        Log.i("up1",user.getUid());
-//        Log.i("up2",storageRef.toString());
-//        storageRef.putFile(imageUri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        // Lấy URL của ảnh đã upload
-//                        Task<Uri> downloadUrl = storageRef.getDownloadUrl();
-//                        downloadUrl.addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                            @Override
-//                            public void onSuccess(Uri uri) {
-//                                String imageUrl = uri.toString();
-//                                Toast.makeText(InfoUserActivity.this, "Upload ảnh thành công!", Toast.LENGTH_SHORT).show();
-//                                saveImageUrlToUserProfile(imageUrl);
-//                            }
-//                        });
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(InfoUserActivity.this, "Upload ảnh thất bại!", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    // Lưu URL ảnh vào hồ sơ người dùng trong Firestore hoặc Realtime Database
-//    private void saveImageUrlToUserProfile(String imageUrl) {
-//        // Cập nhật hồ sơ người dùng với URL ảnh mới trong Firestore hoặc Realtime Database
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        assert user != null;
-//        DocumentReference userRef = db.collection("users").document(user.getUid()); // userId là ID của người dùng
-//        Log.i("save", userRef.toString());
-//
-//        userRef.update("profileImageUrl", imageUrl)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(InfoUserActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(InfoUserActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    // Hiển thị ảnh của người dùng khi họ đăng nhập lại
-//    private void displayUserProfileImage() {
-//        // Đọc URL ảnh từ hồ sơ người dùng trong Firestore hoặc Realtime Database
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        assert user != null;
-//        DocumentReference userRef = db.collection("users").document(user.getUid()); // userId là ID của người dùng
-//        Log.i("Hình ảnh", userRef.toString());
-//        userRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        if (documentSnapshot.exists()) {
-//                            String imageUrl = documentSnapshot.getString("profileImageUrl");
-//                            Glide.with(InfoUserActivity.this).load(imageUrl).into(imvPhotoUser);
-//                            // Glide, Picasso, hoặc Universal Image Loader là những thư viện phổ biến
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(InfoUserActivity.this, "Lỗi khi tải đường dẫn ảnh", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     @Override
     public void onBackPressed() {

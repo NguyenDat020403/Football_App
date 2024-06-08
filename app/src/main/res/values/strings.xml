@@ -23,7 +23,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="default_web_client_id">708486072632-dmqdh6t2va2pl8btnpk26gllljq1vigp.apps.googleusercontent.com</string>
     <string name="xem_highlight">Xem Highlight</string>
-    <string name="api_key">176bd7c6723be2d9ed53f79deed7782c89fa37a040c6c1add9b8ab2e0ecc7c01</string>
+    <string name="api_key">3389d0f8b667c9f26494da11ccb35db1b658349ed8e082e79ae98a1a0bc35959</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

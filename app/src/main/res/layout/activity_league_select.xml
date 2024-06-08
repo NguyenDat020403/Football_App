@@ -37,6 +37,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp" />
+        <TextView
+            android:id="@+id/txtNotMatchLive"
+            android:visibility="gone"
+            android:fontFamily=""
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="Không có trận đấu đang diễn ra."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="20dp"

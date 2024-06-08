@@ -89,6 +89,7 @@ public class leagueSelect extends AppCompatActivity {
     private void getMatch(String date){
         binding.pgbLiveMatch.setVisibility(View.VISIBLE);
         binding.relLiveMatch.setVisibility(View.VISIBLE);
+        binding.txtNotMatchLive.setVisibility(View.GONE);
         RequestQueue requestQueue = Volley.newRequestQueue(leagueSelect.this);
         String url = "https://apiv3.apifootball.com/?action=get_events&from="+date+"&to="+date+"&APIkey=" + getString(R.string.api_key) +"&timezone=Asia/Bangkok&match_live=1";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -102,6 +103,9 @@ public class leagueSelect extends AppCompatActivity {
                     matches.clear();
                     matches.add(new Match("-","-"," "," ","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ));
                     liveMatchAdapter.notifyDataSetChanged();
+                    binding.pgbLiveMatch.setVisibility(View.GONE);
+                    binding.lvLiveMatch.setVisibility(View.GONE);
+                    binding.txtNotMatchLive.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
